@@ -17,7 +17,7 @@ class PostgresService {
       settings: const ConnectionSettings(
         sslMode: SslMode.disable,
       ),
-    );
+    ); 
 
     print('✅ PostgreSQL Connected');
   }
