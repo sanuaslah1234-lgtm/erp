@@ -1,3 +1,6 @@
+import 'package:erp_software/backend/admin/branch/controllers/branch_controller.dart';
+import 'package:erp_software/backend/admin/branch/repositories/branch_repository.dart';
+import 'package:erp_software/backend/admin/branch/services/branch_service.dart';
 import 'package:erp_software/backend/controller/employee_controller.dart';
 import 'package:erp_software/backend/database/postgres_service.dart';
 import 'package:erp_software/backend/services/employee_service.dart';
@@ -12,11 +15,18 @@ Future<void> main() async {
     // Connect PostgreSQL
     await database.connect();
 
-print('ERP database is ready');
+    print('ERP database is ready');
 
-final employeeService = EmployeeService(database);
+    final employeeService = EmployeeService(database);
 
-final employeeController = EmployeeController(employeeService);
+    final employeeController = EmployeeController(employeeService);
+
+    final branchRepository = BranchRepository(database.connection);
+
+    final branchService = BranchService(branchRepository);
+
+    final branchController = BranchController(branchService);
+
     final router = Router();
 
     // Employee API
@@ -25,6 +35,15 @@ final employeeController = EmployeeController(employeeService);
     router.get('/employees/<id>', employeeController.getEmployeeById);
     router.put('/employees/<id>', employeeController.updateEmployee);
     router.delete('/employees/<id>', employeeController.deleteEmployee);
+    router.post('/admin/branches', branchController.createBranch);
+
+    router.get('/admin/branches', branchController.getBranches);
+
+    router.get('/admin/branches/<id>', branchController.getBranchById);
+
+    router.put('/admin/branches/<id>', branchController.updateBranch);
+
+    router.delete('/admin/branches/<id>', branchController.deleteBranch);
     final handler = Pipeline()
         .addMiddleware(logRequests())
         .addHandler(router.call);
