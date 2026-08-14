@@ -12,7 +12,7 @@ class PostgresService {
         port: 5432,
         database: 'Erp',
         username: 'postgres',
-        password: 'Rihaal@123',
+        password: 'Aslah123',
       ),
       settings: const ConnectionSettings(
         sslMode: SslMode.disable,
