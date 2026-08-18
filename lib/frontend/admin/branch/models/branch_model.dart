@@ -25,44 +25,29 @@ class BranchModel {
     this.updatedAt,
   });
 
-  // ============================================================
-  // FROM MAP
-  // ============================================================
-
-  factory BranchModel.fromMap(Map<String, dynamic> map) {
+  factory BranchModel.fromJson(Map<String, dynamic> json) {
     return BranchModel(
-      id: map['id'] == null
+      id: json['id'] as int?,
+      code: json['code']?.toString() ?? '',
+      name: json['name']?.toString() ?? '',
+      address: json['address']?.toString() ?? '',
+      city: json['city']?.toString() ?? '',
+      state: json['state']?.toString() ?? '',
+      phone: json['phone']?.toString() ?? '',
+      email: json['email']?.toString() ?? '',
+      isActive: json['is_active'] as bool? ?? true,
+      createdAt: json['created_at'] == null
           ? null
-          : int.tryParse(map['id'].toString()),
-      code: map['code']?.toString() ?? '',
-      name: map['name']?.toString() ?? '',
-      address: map['address']?.toString() ?? '',
-      city: map['city']?.toString() ?? '',
-      state: map['state']?.toString() ?? '',
-      phone: map['phone']?.toString() ?? '',
-      email: map['email']?.toString() ?? '',
-      isActive: map['is_active'] == true ||
-          map['isActive'] == true,
-      createdAt: map['created_at'] == null
+          : DateTime.tryParse(json['created_at'].toString()),
+      updatedAt: json['updated_at'] == null
           ? null
-          : DateTime.tryParse(
-              map['created_at'].toString(),
-            ),
-      updatedAt: map['updated_at'] == null
-          ? null
-          : DateTime.tryParse(
-              map['updated_at'].toString(),
-            ),
+          : DateTime.tryParse(json['updated_at'].toString()),
     );
   }
 
-  // ============================================================
-  // TO MAP
-  // ============================================================
-
-  Map<String, dynamic> toMap() {
+  /// Used for POST/PUT bodies — backend validates these exact keys.
+  Map<String, dynamic> toRequestJson() {
     return {
-      'id': id,
       'code': code,
       'name': name,
       'address': address,
@@ -71,32 +56,8 @@ class BranchModel {
       'phone': phone,
       'email': email,
       'is_active': isActive,
-      'created_at': createdAt?.toIso8601String(),
-      'updated_at': updatedAt?.toIso8601String(),
     };
   }
-
-  // ============================================================
-  // FROM JSON
-  // ============================================================
-
-  factory BranchModel.fromJson(
-    Map<String, dynamic> json,
-  ) {
-    return BranchModel.fromMap(json);
-  }
-
-  // ============================================================
-  // TO JSON
-  // ============================================================
-
-  Map<String, dynamic> toJson() {
-    return toMap();
-  }
-
-  // ============================================================
-  // COPY WITH
-  // ============================================================
 
   BranchModel copyWith({
     int? id,
@@ -108,8 +69,6 @@ class BranchModel {
     String? phone,
     String? email,
     bool? isActive,
-    DateTime? createdAt,
-    DateTime? updatedAt,
   }) {
     return BranchModel(
       id: id ?? this.id,
@@ -121,9 +80,8 @@ class BranchModel {
       phone: phone ?? this.phone,
       email: email ?? this.email,
       isActive: isActive ?? this.isActive,
-      createdAt: createdAt ?? this.createdAt,
-      updatedAt: updatedAt ?? this.updatedAt,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
     );
   }
 }
-
