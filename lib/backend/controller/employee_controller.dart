@@ -10,10 +10,7 @@ class EmployeeController {
 
   EmployeeController(this.employeeService);
 
-  // ============================================================
-  // POST /employees
-  // CREATE EMPLOYEE
-  // ============================================================
+  
 
   Future<Response> createEmployee(Request request) async {
     try {
@@ -107,10 +104,6 @@ class EmployeeController {
     }
   }
 
-  // ============================================================
-  // GET /employees
-  // GET ALL EMPLOYEES
-  // ============================================================
 
   Future<Response> getEmployees(Request request) async {
     try {
@@ -140,10 +133,7 @@ class EmployeeController {
     }
   }
 
-  // ============================================================
-  // GET /employees/<id>
-  // GET EMPLOYEE BY ID
-  // ============================================================
+  
 
   Future<Response> getEmployeeById(Request request) async {
     try {
@@ -199,10 +189,7 @@ class EmployeeController {
     }
   }
 
-  // ============================================================
-  // PUT /employees/<id>
-  // UPDATE EMPLOYEE
-  // ============================================================
+  
 
   Future<Response> updateEmployee(Request request) async {
     try {
@@ -323,10 +310,7 @@ class EmployeeController {
     }
   }
 
-  // ============================================================
-  // DELETE /employees/<id>
-  // DELETE EMPLOYEE
-  // ============================================================
+  
 
   Future<Response> deleteEmployee(Request request) async {
     try {
