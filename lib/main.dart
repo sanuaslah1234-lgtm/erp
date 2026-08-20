@@ -56,7 +56,7 @@ class ErpApp extends StatelessWidget {
           scaffoldBackgroundColor: const Color(0xFFF8FAFC),
         ),
         home: const Scaffold(
-          body: SafeArea(child:LandingPageScreen()),
+          body: SafeArea(child:ReportsScreen()),
         ),
       ),
     );

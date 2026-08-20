@@ -33,4 +33,12 @@ class ApiConstants {
   static const String reportSuppliers = '$baseUrl/admin/reports/suppliers';
   static const String inventoryReport = '$baseUrl/admin/reports/inventory';
   static const String reportCategories = '$baseUrl/admin/reports/categories';
+
+  static const String authHeader = 'Authorization';
+  static const String bearerPrefix = 'Bearer ';
+
+  static const String loginRoute = '/api/auth/login';
+  static const String logoutRoute = '/api/auth/logout';
+  static const String meRoute = '/api/auth/me';
+  static const String employeesRoute = '/api/employees';
 }
