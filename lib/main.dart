@@ -1,110 +1,64 @@
+import 'package:erp_software/frontend/admin/reports/screens/reports_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:erp_software/frontend/providers/auth_provider.dart';
-import 'package:erp_software/frontend/providers/employee_provider.dart';
-import 'package:erp_software/frontend/providers/cashier/pos_provider.dart';
-import 'package:erp_software/frontend/providers/cashier/order_provider.dart';
-import 'package:erp_software/frontend/providers/cashier/refund_provider.dart';
-import 'package:erp_software/frontend/providers/cashier/barcode_provider.dart';
-import 'package:erp_software/frontend/providers/cashier/cashier_settings_provider.dart';
-import 'package:erp_software/frontend/screens/auth/login_screen.dart';
-import 'package:erp_software/frontend/screens/employee/employee_list_screen.dart';
 import 'package:provider/provider.dart';
 
+import 'frontend/admin/audit_log/providers/audit_log_provider.dart';
+import 'frontend/admin/audit_log/screens/audit_log_screen.dart';
+// import 'frontend/admin/audit_log/screens/employee_timeline_screen.dart';
+import 'frontend/admin/branch/providers/branch_provider.dart';
+import 'frontend/admin/branch/screens/branch_screen.dart';
+import 'frontend/admin/landing_page/providers/landing_page_provider.dart';
+import 'frontend/admin/landing_page/screens/landing_page_screen.dart';
+import 'frontend/admin/manager/providers/manager_provider.dart';
+import 'frontend/admin/manager/screens/manager_screen.dart';
+import 'frontend/admin/reports/providers/reports_provider.dart';
+import 'frontend/admin/reports/providers/purchase_reports_provider.dart';
+import 'frontend/admin/reports/providers/inventory_reports_provider.dart';
+import 'frontend/admin/settings/providers/settings_provider.dart';
+import 'frontend/admin/settings/screens/settings_screen.dart';
+
+/// ⚠️ This file is a STANDALONE test harness for the Branch module only.
+/// Your real app already has main.dart + the shared sidebar/topbar shell
+/// your teammate built. Don't overwrite your real main.dart with this —
+/// instead:
+///   1. Add ChangeNotifierProvider<BranchProvider> near the root of your
+///      existing provider tree (see below).
+///   2. Put `const BranchScreen()` as the body when the "Branch" sidebar
+///      item is selected.
+
+
 void main() {
-  runApp(const MyApp());
+  runApp(const ErpApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class ErpApp extends StatelessWidget {
+  const ErpApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<AuthProvider>(create: (_) => AuthProvider()),
-        ChangeNotifierProvider<EmployeeProvider>(create: (_) => EmployeeProvider()),
-        ChangeNotifierProvider<PosProvider>(create: (_) => PosProvider()),
-        ChangeNotifierProvider<OrderProvider>(create: (_) => OrderProvider()),
-        ChangeNotifierProvider<RefundProvider>(create: (_) => RefundProvider()),
-        ChangeNotifierProvider<BarcodeProvider>(create: (_) => BarcodeProvider()),
-        ChangeNotifierProvider<CashierSettingsProvider>(create: (_) => CashierSettingsProvider()),
+        ChangeNotifierProvider(create: (_) => BranchProvider()),
+        ChangeNotifierProvider(create: (_) => ReportsProvider()),
+        ChangeNotifierProvider(create: (_) => PurchaseReportsProvider()),
+        ChangeNotifierProvider(create: (_) => InventoryReportsProvider()),
+        ChangeNotifierProvider(create: (_) => ManagerProvider()),
+        ChangeNotifierProvider(create: (_) => AuditLogProvider()),
+        ChangeNotifierProvider(create: (_) => SettingsProvider()),
+        ChangeNotifierProvider(create: (_) => LandingPageProvider()),
       ],
       child: MaterialApp(
-        title: 'ERP Software',
+        title: 'ERP Admin',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(
-            seedColor: const Color(0xFF2563EB),
-            brightness: Brightness.light,
-            primary: const Color(0xFF2563EB),
-            secondary: const Color(0xFF3B82F6),
-            surface: const Color(0xFFF8FAFC),
-          ),
-          elevatedButtonTheme: ElevatedButtonThemeData(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFF2563EB),
-              foregroundColor: Colors.white,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-            ),
-          ),
-          cardTheme: CardThemeData(
-            elevation: 2,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
-            ),
-          ),
-          inputDecorationTheme: InputDecorationTheme(
-            filled: true,
-            fillColor: Colors.white,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: Color(0xFFE0E0E0)),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: Color(0xFFE5E7EB)),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: Color(0xFF2563EB), width: 2),
-            ),
-          ),
+          colorSchemeSeed: const Color(0xFF2563EB),
+          scaffoldBackgroundColor: const Color(0xFFF8FAFC),
         ),
-        darkTheme: ThemeData(
-          useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(
-            seedColor: const Color(0xFF6C5CE7),
-            brightness: Brightness.dark,
-            primary: const Color(0xFFA29BFE),
-            secondary: const Color(0xFF81ECEC),
-            surface: const Color(0xFF1E1E2E),
-          ),
-          cardTheme: CardThemeData(
-            elevation: 4,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
-            ),
-          ),
+        home: const Scaffold(
+          body: SafeArea(child:ReportsScreen()),
         ),
-        themeMode: ThemeMode.system,
-        home: const AuthWrapperScreen(),
       ),
     );
-  }
-}
-
-class AuthWrapperScreen extends StatelessWidget {
-  const AuthWrapperScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final authProvider = Provider.of<AuthProvider>(context);
-
-    if (authProvider.isAuthenticated) {
-      return const EmployeeListScreen();
-    } else {
-      return const LoginScreen();
-    }
   }
 }

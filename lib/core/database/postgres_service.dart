@@ -196,7 +196,7 @@ class PostgresService {
         label_quantity INT NOT NULL DEFAULT 1,
         created_by INT REFERENCES users(id),
         created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-      );
+         );
     ''');
     await connection.execute('CREATE INDEX IF NOT EXISTS idx_barcodes_product_id ON barcodes(product_id);');
 
@@ -239,7 +239,9 @@ class PostgresService {
             'email': 'admin@erp.com',
             'password_hash': hashedPassword,
             'role': 'admin',
+             
           },
+         
         );
 
         final userId = userResult.first[0] as int;
@@ -281,6 +283,7 @@ class PostgresService {
         final drinksId = catDrinks.first[0] as int;
         final elecId = catElec.first[0] as int;
         final statId = catStationery.first[0] as int;
+      
 
         final sampleProducts = [
           {'code': 'PRD-001', 'barcode': '8901001000011', 'name': 'Organic Almond Milk 1L', 'cat': drinksId, 'pPrice': 3.50, 'sPrice': 4.99, 'tax': 5.0, 'stock': 150.0, 'unit': 'bottle'},
