@@ -1,54 +1,30 @@
+import 'package:dotenv/dotenv.dart';
 import 'package:postgres/postgres.dart';
 
 class PostgresService {
-  Connection? _connection;
+  late Connection connection;
 
-  Future<void> connect() async {
-    if (_connection != null) return;
+  Future<void> connect() async{
+    final env = DotEnv()..load();
 
-    _connection = await Connection.open(
+    connection = await Connection.open(
       Endpoint(
-        host: 'localhost',
-        port: 5432,
-        database: 'Erp',
-        username: 'postgres',
-        password: 'Rihaal@123',
+     host: env['DATABASE_HOST']!,
+      port:int.parse(env['DATABASE_PORT']!),
+      database: env['DATABASE_NAME']!,
+      username: env['DATABASE_USER']!,
+      password: env['DATABASE_PASSWORD']!,
       ),
       settings: const ConnectionSettings(
-        sslMode: SslMode.disable,
-      ),
-    ); 
-
-    print('✅ PostgreSQL Connected');
-  }
-
-  Connection get connection {
-    if (_connection == null) {
-      throw StateError(
-        'PostgreSQL is not connected. Call connect() first.',
-      );
-    }
-
-    return _connection!;
-  }
-
-  Future<List<Map<String, dynamic>>> getUsers() async {
-    final result = await connection.execute(
-      '''
-      SELECT id, name, email, role, created_at
-      FROM users
-      ORDER BY id
-      '''
+        sslMode: SslMode.disable
+      )
     );
 
-    return result.map((row) {
-      return {
-        'id': row[0],
-        'name': row[1],
-        'email': row[2],
-        'role': row[3],
-        'created_at': row[4]?.toString(),
-      };
-    }).toList();
+    print("PostgreSQL connected successfully");
+
+
+  }
+  Future<void> close()async{
+    await connection.close();
   }
 }

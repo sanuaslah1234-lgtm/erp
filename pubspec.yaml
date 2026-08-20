@@ -37,6 +37,11 @@ dependencies:
   postgres: ^3.5.12
   shelf: ^1.4.2
   shelf_router: ^1.1.4
+  dotenv: ^4.2.0
+  fl_chart: ^1.2.0
+  uuid: ^4.6.0
+  http: ^1.6.0
+  top_snackbar_flutter: ^3.4.0
 
 dev_dependencies:
   flutter_test:
