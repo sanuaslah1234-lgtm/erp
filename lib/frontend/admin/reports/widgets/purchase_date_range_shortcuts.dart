@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:erp_software/theme/app_colors.dart';
 
 import '../providers/purchase_reports_provider.dart';
 import '../providers/reports_provider.dart' show DateShortcut;
@@ -61,7 +62,7 @@ class _Chip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: active ? const Color(0xFFEFF6FF) : Colors.white,
+      color: active ? AppColors.primarySoft : AppColors.surface,
       borderRadius: BorderRadius.circular(8),
       child: InkWell(
         borderRadius: BorderRadius.circular(8),
@@ -70,12 +71,12 @@ class _Chip extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: active ? const Color(0xFF2563EB) : Colors.grey.shade300),
+            border: Border.all(color: active ? AppColors.primary : AppColors.border),
           ),
           child: Text(
             label,
             style: TextStyle(
-              color: active ? const Color(0xFF2563EB) : Colors.grey.shade800,
+              color: active ? AppColors.primary : AppColors.textPrimary,
               fontWeight: FontWeight.w600,
               fontSize: 13,
             ),

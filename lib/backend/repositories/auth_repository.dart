@@ -1,5 +1,5 @@
-import 'package:erp_software/backend/models/user_model.dart';
-import 'package:erp_software/core/database/postgres_service.dart';
+import 'package:erp_software/core/models/user_model.dart';
+import 'package:erp_software/backend/database/postgres_service.dart';
 import 'package:postgres/postgres.dart';
 
 class AuthRepository {
@@ -142,3 +142,4 @@ class AuthRepository {
     );
   }
 }
+

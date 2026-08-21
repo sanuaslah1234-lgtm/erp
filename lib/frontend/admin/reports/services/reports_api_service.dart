@@ -1,14 +1,14 @@
-import '/core/constants/api_constants.dart';
+import 'package:erp_software/core/constants/app_constants.dart';
 import '/core/network/api_client.dart';
-import '../models/inventory_record_model.dart';
-import '../models/inventory_report_result.dart';
-import '../models/inventory_summary_model.dart';
-import '../models/purchase_record_model.dart';
-import '../models/purchase_report_result.dart';
-import '../models/purchase_summary_model.dart';
-import '../models/sales_record_model.dart';
-import '../models/sales_report_results.dart';
-import '../models/sales_summary_model.dart';
+import 'package:erp_software/core/models/inventory_record_model.dart';
+import 'package:erp_software/core/models/inventory_report_result.dart';
+import 'package:erp_software/core/models/inventory_summary_model.dart';
+import 'package:erp_software/core/models/purchase_record_model.dart';
+import 'package:erp_software/core/models/purchase_report_result.dart';
+import 'package:erp_software/core/models/purchase_summary_model.dart';
+import 'package:erp_software/core/models/sales_record_model.dart';
+import 'package:erp_software/core/models/sales_report_results.dart';
+import 'package:erp_software/core/models/sales_summary_model.dart';
 
 class ReportsApiService {
   final ApiClient _client;
@@ -29,7 +29,7 @@ class ReportsApiService {
       if (search != null && search.isNotEmpty) 'search': search,
     };
 
-    final uri = Uri.parse(ApiConstants.salesReport).replace(queryParameters: query);
+    final uri = Uri.parse(AppConstants.salesReport).replace(queryParameters: query);
     final data = await _client.get(uri.toString()) as Map<String, dynamic>;
 
     final summary = SalesSummaryModel.fromJson(data['summary'] as Map<String, dynamic>);
@@ -41,7 +41,7 @@ class ReportsApiService {
   }
 
   Future<List<String>> getCustomers() async {
-    final data = await _client.get(ApiConstants.reportCustomers) as List<dynamic>;
+    final data = await _client.get(AppConstants.reportCustomers) as List<dynamic>;
     return data.map((e) => e.toString()).toList();
   }
 
@@ -59,7 +59,7 @@ class ReportsApiService {
       if (search != null && search.isNotEmpty) 'search': search,
     };
 
-    final uri = Uri.parse(ApiConstants.purchaseReport).replace(queryParameters: query);
+    final uri = Uri.parse(AppConstants.purchaseReport).replace(queryParameters: query);
     final data = await _client.get(uri.toString()) as Map<String, dynamic>;
 
     final summary = PurchaseSummaryModel.fromJson(data['summary'] as Map<String, dynamic>);
@@ -71,7 +71,7 @@ class ReportsApiService {
   }
 
   Future<List<String>> getSuppliers() async {
-    final data = await _client.get(ApiConstants.reportSuppliers) as List<dynamic>;
+    final data = await _client.get(AppConstants.reportSuppliers) as List<dynamic>;
     return data.map((e) => e.toString()).toList();
   }
 
@@ -85,7 +85,7 @@ class ReportsApiService {
       if (search != null && search.isNotEmpty) 'search': search,
     };
 
-    final uri = Uri.parse(ApiConstants.inventoryReport).replace(queryParameters: query);
+    final uri = Uri.parse(AppConstants.inventoryReport).replace(queryParameters: query);
     final data = await _client.get(uri.toString()) as Map<String, dynamic>;
 
     final summary = InventorySummaryModel.fromJson(data['summary'] as Map<String, dynamic>);
@@ -97,7 +97,7 @@ class ReportsApiService {
   }
 
   Future<List<String>> getCategories() async {
-    final data = await _client.get(ApiConstants.reportCategories) as List<dynamic>;
+    final data = await _client.get(AppConstants.reportCategories) as List<dynamic>;
     return data.map((e) => e.toString()).toList();
   }
 

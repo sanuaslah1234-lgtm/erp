@@ -1,6 +1,6 @@
-import '/core/constants/api_constants.dart';
+import 'package:erp_software/core/constants/app_constants.dart';
 import '/core/network/api_client.dart';
-import '../models/landing_page_model.dart';
+import 'package:erp_software/core/models/landing_page_model.dart';
 
 class LandingPageApiService {
   final ApiClient _client;
@@ -8,20 +8,20 @@ class LandingPageApiService {
   LandingPageApiService({ApiClient? client}) : _client = client ?? ApiClient();
 
   Future<LandingPageModel> getSettings() async {
-    final data = await _client.get(ApiConstants.landingPage) as Map<String, dynamic>;
+    final data = await _client.get(AppConstants.landingPage) as Map<String, dynamic>;
     return LandingPageModel.fromJson(data);
   }
 
   Future<LandingPageModel> updateSettings(LandingPageModel settings) async {
     final data = await _client.put(
-      ApiConstants.landingPage,
+      AppConstants.landingPage,
       settings.toRequestJson(),
     ) as Map<String, dynamic>;
     return LandingPageModel.fromJson(data);
   }
 
   Future<LandingPageModel> resetSettings() async {
-    final data = await _client.post(ApiConstants.landingPageReset, {}) as Map<String, dynamic>;
+    final data = await _client.post(AppConstants.landingPageReset, {}) as Map<String, dynamic>;
     return LandingPageModel.fromJson(data);
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:erp_software/theme/app_colors.dart';
 
 import '../providers/landing_page_provider.dart';
 import '../widgets/about_section_form.dart';
@@ -9,7 +10,7 @@ import '../widgets/navbar_section_form.dart';
 
 /// Drop this into your app's routing / shell in place of the
 /// "Settings Landing" tab body. Wrap it (or a parent above it) with
-/// ChangeNotifierProvider<LandingPageProvider> — see main.dart.
+/// ChangeNotifierProvider&lt;LandingPageProvider&gt; — see main.dart.
 class LandingPageScreen extends StatefulWidget {
   const LandingPageScreen({super.key});
 
@@ -32,7 +33,7 @@ class _LandingPageScreenState extends State<LandingPageScreen> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(success ? 'Changes saved successfully' : provider.errorMessage ?? 'Save failed'),
-        backgroundColor: success ? Colors.green : Colors.red,
+        backgroundColor: success ? AppColors.success : AppColors.danger,
       ),
     );
   }
@@ -53,42 +54,46 @@ class _LandingPageScreenState extends State<LandingPageScreen> {
           Container(
             padding: const EdgeInsets.all(24),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: AppColors.surface,
               borderRadius: BorderRadius.circular(14),
-              border: Border.all(color: Colors.grey.shade200),
+              border: Border.all(color: AppColors.border),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text('Landing Page Management',
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: AppColors.textPrimary)),
                 const SizedBox(height: 24),
                 if (provider.errorMessage != null) _errorBanner(provider),
                 const NavbarSectionForm(),
                 const SizedBox(height: 24),
-                const Divider(),
+                const Divider(color: AppColors.border),
                 const SizedBox(height: 24),
                 const HeroSectionForm(),
                 const SizedBox(height: 24),
-                const Divider(),
+                const Divider(color: AppColors.border),
                 const SizedBox(height: 24),
                 const AboutSectionForm(),
                 const SizedBox(height: 24),
-                const Divider(),
+                const Divider(color: AppColors.border),
                 const SizedBox(height: 24),
                 const FooterSectionForm(),
                 const SizedBox(height: 24),
-                const Divider(),
+                const Divider(color: AppColors.border),
                 const SizedBox(height: 24),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: FilledButton(
                     onPressed: (provider.isSaving || !provider.isDirty) ? null : () => _save(provider),
-                    style: FilledButton.styleFrom(padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 16)),
+                    style: FilledButton.styleFrom(
+                      backgroundColor: AppColors.primary,
+                      foregroundColor: AppColors.white,
+                      padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 16),
+                    ),
                     child: provider.isSaving
                         ? const SizedBox(
                             width: 18, height: 18,
-                            child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
+                            child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.white))
                         : const Text('Save Changes'),
                   ),
                 ),
@@ -105,16 +110,16 @@ class _LandingPageScreenState extends State<LandingPageScreen> {
       margin: const EdgeInsets.only(bottom: 20),
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: const Color(0xFFFEF2F2),
+        color: AppColors.dangerLight,
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: const Color(0xFFFECACA)),
+        border: Border.all(color: AppColors.danger.withValues(alpha: 0.3)),
       ),
       child: Row(
         children: [
-          const Icon(Icons.error_outline, color: Color(0xFFDC2626), size: 20),
+          const Icon(Icons.error_outline, color: AppColors.danger, size: 20),
           const SizedBox(width: 10),
           Expanded(
-            child: Text(provider.errorMessage!, style: const TextStyle(color: Color(0xFFB91C1C), fontSize: 13)),
+            child: Text(provider.errorMessage!, style: const TextStyle(color: AppColors.dangerText, fontSize: 13)),
           ),
         ],
       ),

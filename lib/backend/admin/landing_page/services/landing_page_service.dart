@@ -1,4 +1,4 @@
-import '../models/landing_page_model.dart';
+import 'package:erp_software/core/models/landing_page_model.dart';
 import '../repositories/landing_page_repository.dart';
 
 class LandingPageValidationException implements Exception {

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:erp_software/theme/app_colors.dart';
 
-import '../models/branch_model.dart';
+import 'package:erp_software/core/models/branch_model.dart';
 import '../providers/branch_provider.dart';
 
 class BranchFormDialog extends StatefulWidget {
@@ -73,6 +74,7 @@ class _BranchFormDialogState extends State<BranchFormDialog> {
     final dialogWidth = width < 600 ? width * 0.92 : 560.0;
 
     return Dialog(
+      backgroundColor: AppColors.surface,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: ConstrainedBox(
         constraints: BoxConstraints(maxWidth: dialogWidth, maxHeight: 640),
@@ -86,7 +88,7 @@ class _BranchFormDialogState extends State<BranchFormDialog> {
                 children: [
                   Text(
                     _isEditing ? 'Edit Branch' : 'Add New Branch',
-                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColors.textPrimary),
                   ),
                   const SizedBox(height: 20),
                   _row([
@@ -112,7 +114,8 @@ class _BranchFormDialogState extends State<BranchFormDialog> {
                   const SizedBox(height: 8),
                   SwitchListTile(
                     contentPadding: EdgeInsets.zero,
-                    title: const Text('Active'),
+                    activeThumbColor: AppColors.primary,
+                    title: const Text('Active', style: TextStyle(color: AppColors.textPrimary)),
                     value: _isActive,
                     onChanged: (v) => setState(() => _isActive = v),
                   ),
@@ -128,6 +131,10 @@ class _BranchFormDialogState extends State<BranchFormDialog> {
                       ),
                       const SizedBox(width: 8),
                       FilledButton(
+                        style: FilledButton.styleFrom(
+                          backgroundColor: AppColors.primary,
+                          foregroundColor: AppColors.white,
+                        ),
                         onPressed: provider.isMutating ? null : () => _submit(provider),
                         child: provider.isMutating
                             ? const SizedBox(
@@ -135,7 +142,7 @@ class _BranchFormDialogState extends State<BranchFormDialog> {
                                 height: 18,
                                 child: CircularProgressIndicator(
                                   strokeWidth: 2,
-                                  color: Colors.white,
+                                  color: AppColors.white,
                                 ),
                               )
                             : Text(_isEditing ? 'Save Changes' : 'Create Branch'),
@@ -187,6 +194,7 @@ class _BranchFormDialogState extends State<BranchFormDialog> {
       maxLines: maxLines,
       decoration: InputDecoration(
         labelText: label,
+        labelStyle: const TextStyle(color: AppColors.textSecondary, fontSize: 13),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
         contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
       ),
@@ -225,8 +233,9 @@ class _BranchFormDialogState extends State<BranchFormDialog> {
               ? (_isEditing ? 'Branch updated successfully' : 'Branch created successfully')
               : provider.errorMessage ?? 'Something went wrong',
         ),
-        backgroundColor: success ? Colors.green : Colors.red,
+        backgroundColor: success ? AppColors.success : AppColors.danger,
       ),
     );
   }
 }
+

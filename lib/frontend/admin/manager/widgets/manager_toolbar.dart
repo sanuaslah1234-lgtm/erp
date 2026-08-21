@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:erp_software/theme/app_colors.dart';
 
 import '../providers/manager_provider.dart';
 import 'manager_form_dialog.dart';
@@ -31,12 +32,17 @@ class ManagerToolbar extends StatelessWidget {
       onChanged: provider.setSearchQuery,
       decoration: InputDecoration(
         hintText: 'Search managers...',
-        prefixIcon: const Icon(Icons.search, size: 20),
+        prefixIcon: const Icon(Icons.search, size: 20, color: AppColors.textMuted),
         filled: true,
-        fillColor: Colors.white,
+        fillColor: AppColors.pageBackground,
+        contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 14),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide(color: Colors.grey.shade300),
+          borderSide: const BorderSide(color: AppColors.border),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: const BorderSide(color: AppColors.border),
         ),
       ),
     );
@@ -45,14 +51,15 @@ class ManagerToolbar extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12),
         decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey.shade300),
+          color: AppColors.pageBackground,
+          border: Border.all(color: AppColors.border),
           borderRadius: BorderRadius.circular(10),
         ),
         child: DropdownButton<ManagerSort>(
           value: provider.sortOption,
-          icon: const Icon(Icons.arrow_drop_down),
+          icon: const Icon(Icons.arrow_drop_down, color: AppColors.textSecondary),
           items: ManagerSort.values
-              .map((s) => DropdownMenuItem(value: s, child: Text(_sortLabel(s))))
+              .map((s) => DropdownMenuItem(value: s, child: Text(_sortLabel(s), style: const TextStyle(fontSize: 13, color: AppColors.textPrimary))))
               .toList(),
           onChanged: (value) {
             if (value != null) provider.setSort(value);
@@ -65,13 +72,13 @@ class ManagerToolbar extends StatelessWidget {
       onPressed: provider.isLoading ? null : () => provider.fetchManagers(),
       style: OutlinedButton.styleFrom(
         padding: const EdgeInsets.all(12),
-        side: BorderSide(color: Colors.grey.shade300),
+        side: const BorderSide(color: AppColors.border),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       ),
       child: provider.isLoading
           ? const SizedBox(
               width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2))
-          : const Icon(Icons.refresh, size: 20),
+          : const Icon(Icons.refresh, size: 20, color: AppColors.textSecondary),
     );
 
     final addButton = FilledButton.icon(
@@ -79,6 +86,8 @@ class ManagerToolbar extends StatelessWidget {
       icon: const Icon(Icons.person_add_alt_1, size: 18),
       label: const Text('Add Manager'),
       style: FilledButton.styleFrom(
+        backgroundColor: AppColors.primary,
+        foregroundColor: AppColors.white,
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       ),
@@ -110,3 +119,4 @@ class ManagerToolbar extends StatelessWidget {
     );
   }
 }
+

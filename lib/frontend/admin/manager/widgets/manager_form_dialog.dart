@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:erp_software/theme/app_colors.dart';
 
-import '../models/manager_model.dart';
+import 'package:erp_software/core/models/manager_model.dart';
 import '../providers/manager_provider.dart';
 
 class ManagerFormDialog extends StatefulWidget {
@@ -73,6 +74,7 @@ class _ManagerFormDialogState extends State<ManagerFormDialog> {
     final dialogWidth = width < 600 ? width * 0.92 : 560.0;
 
     return Dialog(
+      backgroundColor: AppColors.surface,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: ConstrainedBox(
         constraints: BoxConstraints(maxWidth: dialogWidth, maxHeight: 640),
@@ -86,12 +88,12 @@ class _ManagerFormDialogState extends State<ManagerFormDialog> {
                 children: [
                   Text(
                     _isEditing ? 'Edit Manager' : 'Add New Manager',
-                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColors.textPrimary),
                   ),
                   if (_isEditing) ...[
                     const SizedBox(height: 4),
                     Text('ID: ${widget.existingManager!.employeeId}',
-                        style: TextStyle(color: Colors.grey.shade600, fontSize: 12)),
+                        style: const TextStyle(color: AppColors.textSecondary, fontSize: 12)),
                   ],
                   const SizedBox(height: 20),
                   _field('Full Name', _nameCtrl, validator: (v) => _required(v, 'Full Name')),
@@ -114,7 +116,8 @@ class _ManagerFormDialogState extends State<ManagerFormDialog> {
                   const SizedBox(height: 8),
                   SwitchListTile(
                     contentPadding: EdgeInsets.zero,
-                    title: const Text('Verified'),
+                    activeThumbColor: AppColors.primary,
+                    title: const Text('Verified', style: TextStyle(color: AppColors.textPrimary)),
                     value: _isVerified,
                     onChanged: (v) => setState(() => _isVerified = v),
                   ),
@@ -128,12 +131,16 @@ class _ManagerFormDialogState extends State<ManagerFormDialog> {
                       ),
                       const SizedBox(width: 8),
                       FilledButton(
+                        style: FilledButton.styleFrom(
+                          backgroundColor: AppColors.primary,
+                          foregroundColor: AppColors.white,
+                        ),
                         onPressed: provider.isMutating ? null : () => _submit(provider),
                         child: provider.isMutating
                             ? const SizedBox(
                                 width: 18,
                                 height: 18,
-                                child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+                                child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.white),
                               )
                             : Text(_isEditing ? 'Save Changes' : 'Create Manager'),
                       ),
@@ -152,25 +159,26 @@ class _ManagerFormDialogState extends State<ManagerFormDialog> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Assign Branch', style: TextStyle(fontSize: 12.5, color: Colors.grey.shade700)),
+        const Text('Assign Branch', style: TextStyle(fontSize: 12.5, color: AppColors.textSecondary)),
         const SizedBox(height: 6),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 12),
           decoration: BoxDecoration(
-            border: Border.all(color: Colors.grey.shade300),
+            color: AppColors.pageBackground,
+            border: Border.all(color: AppColors.border),
             borderRadius: BorderRadius.circular(10),
           ),
           child: DropdownButtonHideUnderline(
             child: DropdownButton<int?>(
               isExpanded: true,
-              hint: const Text('No branch assigned'),
+              hint: const Text('No branch assigned', style: TextStyle(color: AppColors.textSecondary)),
               value: _selectedBranchId,
               items: [
-                const DropdownMenuItem<int?>(value: null, child: Text('No branch assigned')),
+                const DropdownMenuItem<int?>(value: null, child: Text('No branch assigned', style: TextStyle(color: AppColors.textPrimary))),
                 ...provider.branchOptions.map(
                   (b) => DropdownMenuItem<int?>(
                     value: b.id,
-                    child: Text('${b.code} — ${b.name}'),
+                    child: Text('${b.code} — ${b.name}', style: const TextStyle(color: AppColors.textPrimary)),
                   ),
                 ),
               ],
@@ -210,6 +218,7 @@ class _ManagerFormDialogState extends State<ManagerFormDialog> {
       obscureText: obscure,
       decoration: InputDecoration(
         labelText: label,
+        labelStyle: const TextStyle(color: AppColors.textSecondary, fontSize: 13),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
         contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
       ),
@@ -248,8 +257,9 @@ class _ManagerFormDialogState extends State<ManagerFormDialog> {
               ? (_isEditing ? 'Manager updated successfully' : 'Manager created successfully')
               : provider.errorMessage ?? 'Something went wrong',
         ),
-        backgroundColor: success ? Colors.green : Colors.red,
+        backgroundColor: success ? AppColors.success : AppColors.danger,
       ),
     );
   }
 }
+

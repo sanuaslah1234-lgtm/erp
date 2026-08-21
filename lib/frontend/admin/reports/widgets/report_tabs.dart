@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:erp_software/theme/app_colors.dart';
 
 enum ReportTab { sales, purchase, inventory }
 
@@ -54,7 +55,7 @@ class _TabButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: selected ? const Color(0xFF2563EB) : Colors.transparent,
+      color: selected ? AppColors.primary : Colors.transparent,
       borderRadius: BorderRadius.circular(10),
       child: InkWell(
         borderRadius: BorderRadius.circular(10),
@@ -64,14 +65,14 @@ class _TabButton extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(icon, size: 18, color: selected ? Colors.white : Colors.grey.shade700),
+              Icon(icon, size: 18, color: selected ? AppColors.white : AppColors.textSecondary),
               const SizedBox(width: 8),
               Flexible(
                 child: Text(
                   label,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                    color: selected ? Colors.white : Colors.grey.shade700,
+                    color: selected ? AppColors.white : AppColors.textSecondary,
                     fontWeight: FontWeight.w600,
                   ),
                 ),

@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:shelf/shelf.dart';
 
-import 'package:erp_software/backend/admin/branch/models/branch_model.dart';
+import 'package:erp_software/core/models/branch_model.dart';
 import 'package:erp_software/backend/admin/branch/services/branch_service.dart';
 
 class BranchController {

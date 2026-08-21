@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:erp_software/theme/app_colors.dart';
 
 import '../providers/inventory_reports_provider.dart';
 
@@ -13,12 +14,16 @@ class InventoryFiltersBar extends StatelessWidget {
 
     final categoryDropdown = Container(
       padding: const EdgeInsets.symmetric(horizontal: 12),
-      decoration: BoxDecoration(border: Border.all(color: Colors.grey.shade300), borderRadius: BorderRadius.circular(10)),
+      decoration: BoxDecoration(
+        color: AppColors.pageBackground,
+        border: Border.all(color: AppColors.border),
+        borderRadius: BorderRadius.circular(10),
+      ),
       child: DropdownButtonHideUnderline(
         child: DropdownButton<String>(
           isExpanded: true,
           value: provider.categories.contains(provider.selectedCategory) ? provider.selectedCategory : 'All Categories',
-          items: provider.categories.map((c) => DropdownMenuItem(value: c, child: Text(c))).toList(),
+          items: provider.categories.map((c) => DropdownMenuItem(value: c, child: Text(c, style: const TextStyle(color: AppColors.textPrimary)))).toList(),
           onChanged: (v) {
             if (v != null) provider.setCategory(v);
           },
@@ -30,10 +35,11 @@ class InventoryFiltersBar extends StatelessWidget {
       onChanged: provider.setRecordsSearch,
       decoration: InputDecoration(
         hintText: 'Search by SKU or item name...',
-        prefixIcon: const Icon(Icons.search, size: 20),
+        prefixIcon: const Icon(Icons.search, size: 20, color: AppColors.textMuted),
         filled: true,
-        fillColor: Colors.white,
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: Colors.grey.shade300)),
+        fillColor: AppColors.pageBackground,
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(color: AppColors.border)),
+        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(color: AppColors.border)),
       ),
     );
 

@@ -1,9 +1,9 @@
-import '/core/constants/api_constants.dart';
+import 'package:erp_software/core/constants/app_constants.dart';
 import '/core/network/api_client.dart';
-import '../models/audit_log_model.dart';
-import '../models/audit_logs_page_result_model.dart';
-import '../models/audit_stats_model.dart';
-import '../models/employee_timeline_model.dart';
+import 'package:erp_software/core/models/audit_log_model.dart';
+import 'package:erp_software/core/models/audit_logs_page_result_model.dart';
+import 'package:erp_software/core/models/audit_stats_model.dart';
+import 'package:erp_software/core/models/employee_timeline_model.dart';
 
 class AuditLogApiService {
   final ApiClient _client;
@@ -21,7 +21,7 @@ class AuditLogApiService {
       if (module != null && module.isNotEmpty && module != 'All Modules') 'module': module,
     };
 
-    final uri = Uri.parse(ApiConstants.auditLogs).replace(queryParameters: query);
+    final uri = Uri.parse(AppConstants.auditLogs).replace(queryParameters: query);
     final data = await _client.get(uri.toString()) as Map<String, dynamic>;
 
     final stats = AuditStatsModel.fromJson(data['stats'] as Map<String, dynamic>);
@@ -34,7 +34,7 @@ class AuditLogApiService {
 
   Future<EmployeeTimelinePage> getEmployeeTimeline(int employeeDbId) async {
     final data =
-        await _client.get(ApiConstants.employeeTimeline(employeeDbId)) as Map<String, dynamic>;
+        await _client.get(AppConstants.employeeTimeline(employeeDbId)) as Map<String, dynamic>;
 
     return EmployeeTimelinePage(
       employee: EmployeeInfoModel.fromJson(data['employee'] as Map<String, dynamic>),

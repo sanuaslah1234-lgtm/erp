@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 
-import '/core/network/api_exception.dart';
-import '../models/business_settings_model.dart';
+import 'package:erp_software/core/errors/app_exception.dart';
+import 'package:erp_software/core/models/business_settings_model.dart';
 import '../services/settings_api_service.dart';
 
 class SettingsProvider extends ChangeNotifier {

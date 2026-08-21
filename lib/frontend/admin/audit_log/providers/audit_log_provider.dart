@@ -1,9 +1,9 @@
 import 'package:flutter/foundation.dart';
 
-import '/core/network/api_exception.dart';
-import '../models/audit_log_model.dart';
-import '../models/audit_stats_model.dart';
-import '../models/employee_timeline_model.dart';
+import 'package:erp_software/core/errors/app_exception.dart';
+import 'package:erp_software/core/models/audit_log_model.dart';
+import 'package:erp_software/core/models/audit_stats_model.dart';
+import 'package:erp_software/core/models/employee_timeline_model.dart';
 import '../services/audit_log_api_service.dart';
 
 class AuditLogProvider extends ChangeNotifier {

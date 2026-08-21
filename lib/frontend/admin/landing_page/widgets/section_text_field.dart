@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:erp_software/theme/app_colors.dart';
 
-/// A plain text field bound to provider state. Manages its own
-/// TextEditingController so typing doesn't get interrupted by rebuilds —
-/// only re-syncs the controller when [value] changes from OUTSIDE typing
-/// (e.g. after Reset Defaults or initial load), not on every keystroke.
+/// A plain text field bound to provider state.
 class SectionTextField extends StatefulWidget {
   final String label;
   final String value;
@@ -36,8 +34,6 @@ class _SectionTextFieldState extends State<SectionTextField> {
   @override
   void didUpdateWidget(covariant SectionTextField oldWidget) {
     super.didUpdateWidget(oldWidget);
-    // Only resync if the value changed for a reason OTHER than our own
-    // typing (typing already keeps widget.value == _controller.text).
     if (widget.value != _controller.text) {
       _controller.text = widget.value;
     }
@@ -54,7 +50,7 @@ class _SectionTextFieldState extends State<SectionTextField> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(widget.label, style: TextStyle(fontSize: 13, color: Colors.grey.shade700)),
+        Text(widget.label, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: AppColors.textSecondary)),
         const SizedBox(height: 6),
         TextField(
           controller: _controller,
@@ -62,7 +58,16 @@ class _SectionTextFieldState extends State<SectionTextField> {
           keyboardType: widget.keyboardType,
           onChanged: widget.onChanged,
           decoration: InputDecoration(
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+            filled: true,
+            fillColor: AppColors.pageBackground,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: const BorderSide(color: AppColors.border),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: const BorderSide(color: AppColors.border),
+            ),
             contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
           ),
         ),

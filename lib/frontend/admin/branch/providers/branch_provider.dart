@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 
-import '/core/network/api_exception.dart';
-import '../models/branch_model.dart';
+import 'package:erp_software/core/errors/app_exception.dart';
+import 'package:erp_software/core/models/branch_model.dart';
 import '../services/branch_api_service.dart';
 
 enum BranchSort { defaultOrder, nameAZ, nameZA, newest, oldest }
@@ -95,7 +95,7 @@ class BranchProvider extends ChangeNotifier {
       errorMessage = e.message;
       return false;
     } catch (e) {
-      errorMessage = 'Something went wrong';
+      errorMessage = 'Something went wrong: $e';
       return false;
     } finally {
       isMutating = false;

@@ -1,4 +1,4 @@
-import 'package:erp_software/backend/admin/branch/models/branch_model.dart';
+import 'package:erp_software/core/models/branch_model.dart';
 import 'package:erp_software/backend/admin/branch/repositories/branch_repository.dart';
 
 class BranchService {

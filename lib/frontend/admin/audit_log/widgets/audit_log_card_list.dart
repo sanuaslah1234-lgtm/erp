@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:erp_software/theme/app_colors.dart';
 
-import '../models/audit_log_model.dart';
+import 'package:erp_software/core/models/audit_log_model.dart';
 import 'action_badge.dart';
 
 class AuditLogCardList extends StatelessWidget {
@@ -25,15 +26,15 @@ class AuditLogCardList extends StatelessWidget {
       physics: const NeverScrollableScrollPhysics(),
       padding: const EdgeInsets.all(16),
       itemCount: logs.length,
-      separatorBuilder: (_, __) => const SizedBox(height: 12),
+      separatorBuilder: (_, _) => const SizedBox(height: 12),
       itemBuilder: (context, index) {
         final log = logs[index];
         return Container(
           padding: const EdgeInsets.all(14),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: AppColors.surface,
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: Colors.grey.shade200),
+            border: Border.all(color: AppColors.border),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -42,22 +43,22 @@ class AuditLogCardList extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(log.employeeName ?? 'Unknown',
-                        style: const TextStyle(fontWeight: FontWeight.bold)),
+                        style: const TextStyle(fontWeight: FontWeight.bold, color: AppColors.textPrimary)),
                   ),
                   ActionBadge(action: log.action),
                 ],
               ),
               const SizedBox(height: 4),
-              Text(_dateLabel(log.createdAt), style: TextStyle(fontSize: 12, color: Colors.grey.shade500)),
+              Text(_dateLabel(log.createdAt), style: const TextStyle(fontSize: 12, color: AppColors.textMuted)),
               const SizedBox(height: 8),
               Row(children: [
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                  decoration: BoxDecoration(color: Colors.grey.shade100, borderRadius: BorderRadius.circular(6)),
-                  child: Text(log.module, style: const TextStyle(fontSize: 11.5)),
+                  decoration: BoxDecoration(color: AppColors.pageBackground, borderRadius: BorderRadius.circular(6)),
+                  child: Text(log.module, style: const TextStyle(fontSize: 11.5, color: AppColors.textSecondary)),
                 ),
                 const SizedBox(width: 8),
-                Expanded(child: Text(log.description, style: const TextStyle(fontSize: 13))),
+                Expanded(child: Text(log.description, style: const TextStyle(fontSize: 13, color: AppColors.textPrimary))),
               ]),
               if (log.employeeDbId != null) ...[
                 const SizedBox(height: 10),

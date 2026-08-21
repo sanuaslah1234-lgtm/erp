@@ -1,9 +1,9 @@
 import 'package:flutter/foundation.dart';
 
-import '/core/network/api_exception.dart';
-import '../../branch/models/branch_model.dart';
+import 'package:erp_software/core/errors/app_exception.dart';
+import 'package:erp_software/core/models/branch_model.dart';
 import '../../branch/services/branch_api_service.dart';
-import '../models/manager_model.dart';
+import 'package:erp_software/core/models/manager_model.dart';
 import '../services/manager_api_service.dart';
 
 enum ManagerSort { defaultOrder, nameAZ, nameZA, newest, oldest }

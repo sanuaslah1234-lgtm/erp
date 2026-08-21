@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:erp_software/theme/app_colors.dart';
 
 import '../providers/reports_provider.dart';
 
@@ -49,7 +50,7 @@ class DateRangeShortcuts extends StatelessWidget {
         ..add(_Chip(
           label: 'Custom Range',
           active: provider.activeShortcut == DateShortcut.custom,
-          onTap: () {}, // Selecting a date below automatically switches to custom
+          onTap: () {},
         )),
     );
   }
@@ -65,7 +66,7 @@ class _Chip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: active ? const Color(0xFFEFF6FF) : Colors.white,
+      color: active ? AppColors.primarySoft : AppColors.surface,
       borderRadius: BorderRadius.circular(8),
       child: InkWell(
         borderRadius: BorderRadius.circular(8),
@@ -75,13 +76,13 @@ class _Chip extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
             border: Border.all(
-              color: active ? const Color(0xFF2563EB) : Colors.grey.shade300,
+              color: active ? AppColors.primary : AppColors.border,
             ),
           ),
           child: Text(
             label,
             style: TextStyle(
-              color: active ? const Color(0xFF2563EB) : Colors.grey.shade800,
+              color: active ? AppColors.primary : AppColors.textPrimary,
               fontWeight: FontWeight.w600,
               fontSize: 13,
             ),

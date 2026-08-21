@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:erp_software/theme/app_colors.dart';
 
-import '../models/audit_log_model.dart';
+import 'package:erp_software/core/models/audit_log_model.dart';
 import 'action_badge.dart';
 
 class TimelineEntryTile extends StatelessWidget {
@@ -29,8 +30,8 @@ class TimelineEntryTile extends StatelessWidget {
           height: 34,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: color.withOpacity(0.1),
-            border: Border.all(color: color.withOpacity(0.3)),
+            color: color.withValues(alpha: 0.1),
+            border: Border.all(color: color.withValues(alpha: 0.3)),
           ),
           child: Icon(icon, size: 16, color: color),
         ),
@@ -40,9 +41,9 @@ class TimelineEntryTile extends StatelessWidget {
             margin: const EdgeInsets.only(bottom: 14),
             padding: const EdgeInsets.all(14),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: AppColors.surface,
               borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: Colors.grey.shade200),
+              border: Border.all(color: AppColors.border),
             ),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -56,14 +57,14 @@ class TimelineEntryTile extends StatelessWidget {
                         style: TextStyle(color: color, fontWeight: FontWeight.w700, fontSize: 12),
                       ),
                       const SizedBox(height: 4),
-                      Text(entry.description, style: const TextStyle(fontWeight: FontWeight.w600)),
+                      Text(entry.description, style: const TextStyle(fontWeight: FontWeight.w600, color: AppColors.textPrimary)),
                       const SizedBox(height: 4),
                       Text('IP: ${entry.ipAddress}',
-                          style: TextStyle(fontSize: 11.5, color: Colors.grey.shade500)),
+                          style: const TextStyle(fontSize: 11.5, color: AppColors.textMuted)),
                     ],
                   ),
                 ),
-                Text(_time(entry.createdAt), style: TextStyle(fontSize: 12, color: Colors.grey.shade500)),
+                Text(_time(entry.createdAt), style: const TextStyle(fontSize: 12, color: AppColors.textMuted)),
               ],
             ),
           ),

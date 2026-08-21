@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:erp_software/theme/app_colors.dart';
 
 import '../providers/settings_provider.dart';
 
@@ -69,13 +70,10 @@ class _BusinessProfileFormState extends State<BusinessProfileForm> {
   Widget build(BuildContext context) {
     final provider = context.watch<SettingsProvider>();
 
-    // Initialize controllers once settings first load (or after a reset), then
-    // keep them in sync only if the logo changed elsewhere (e.g. reset/discard).
     if (!_controllersInitialized) {
       _initControllers(provider);
     } else if (provider.draft.companyLogoBase64 != _lastSyncedLogo &&
         provider.draft.companyName == _companyNameCtrl.text) {
-      // A reset/discard happened elsewhere — re-sync all fields.
       _companyNameCtrl.text = provider.draft.companyName;
       _legalNameCtrl.text = provider.draft.legalTradeName;
       _taxNumberCtrl.text = provider.draft.taxVatNumber;
@@ -89,14 +87,14 @@ class _BusinessProfileFormState extends State<BusinessProfileForm> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text('Business Details & Identity',
-            style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
+            style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: AppColors.textPrimary)),
         const SizedBox(height: 4),
-        Text('Company branding, tax registration, contact information, and main address.',
-            style: TextStyle(color: Colors.grey.shade600, fontSize: 13)),
+        const Text('Company branding, tax registration, contact information, and main address.',
+            style: TextStyle(color: AppColors.textSecondary, fontSize: 13)),
         const SizedBox(height: 20),
-        const Divider(),
+        const Divider(color: AppColors.border),
         const SizedBox(height: 20),
-        Text('Company Logo', style: TextStyle(fontSize: 13, color: Colors.grey.shade700)),
+        const Text('Company Logo', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: AppColors.textSecondary)),
         const SizedBox(height: 8),
         Row(
           children: [
@@ -104,8 +102,9 @@ class _BusinessProfileFormState extends State<BusinessProfileForm> {
               width: 90,
               height: 90,
               decoration: BoxDecoration(
-                color: const Color(0xFFEFF6FF),
+                color: AppColors.primarySoft,
                 borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: AppColors.border),
               ),
               child: provider.draft.companyLogoBase64 != null
                   ? ClipRRect(
@@ -115,7 +114,7 @@ class _BusinessProfileFormState extends State<BusinessProfileForm> {
                         fit: BoxFit.cover,
                       ),
                     )
-                  : Icon(Icons.image_outlined, color: Colors.grey.shade400, size: 32),
+                  : const Icon(Icons.image_outlined, color: AppColors.textMuted, size: 32),
             ),
             const SizedBox(width: 16),
             Column(
@@ -125,10 +124,13 @@ class _BusinessProfileFormState extends State<BusinessProfileForm> {
                   onPressed: () => _pickLogo(provider),
                   icon: const Icon(Icons.upload_outlined, size: 18),
                   label: const Text('Upload New Logo'),
+                  style: OutlinedButton.styleFrom(
+                    side: const BorderSide(color: AppColors.border),
+                  ),
                 ),
                 const SizedBox(height: 6),
-                Text('Recommended format: PNG, JPG, or SVG (Max 5MB).',
-                    style: TextStyle(fontSize: 11.5, color: Colors.grey.shade500)),
+                const Text('Recommended format: PNG, JPG, or SVG (Max 5MB).',
+                    style: TextStyle(fontSize: 11.5, color: AppColors.textMuted)),
               ],
             ),
           ],
@@ -181,14 +183,23 @@ class _BusinessProfileFormState extends State<BusinessProfileForm> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: TextStyle(fontSize: 13, color: Colors.grey.shade700)),
+        Text(label, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: AppColors.textSecondary)),
         const SizedBox(height: 6),
         TextField(
           controller: controller,
           keyboardType: keyboardType,
           maxLines: maxLines,
           decoration: InputDecoration(
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+            filled: true,
+            fillColor: AppColors.pageBackground,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: const BorderSide(color: AppColors.border),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: const BorderSide(color: AppColors.border),
+            ),
             contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
           ),
         ),

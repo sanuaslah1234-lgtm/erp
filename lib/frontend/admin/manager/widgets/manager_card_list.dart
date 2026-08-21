@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:erp_software/theme/app_colors.dart';
 
 import '../../branch/widgets/status_badge.dart';
-import '../models/manager_model.dart';
+import 'package:erp_software/core/models/manager_model.dart';
 import 'manager_actions_menu.dart';
 
 class ManagerCardList extends StatelessWidget {
@@ -16,15 +17,15 @@ class ManagerCardList extends StatelessWidget {
       physics: const NeverScrollableScrollPhysics(),
       padding: const EdgeInsets.all(16),
       itemCount: managers.length,
-      separatorBuilder: (_, __) => const SizedBox(height: 12),
+      separatorBuilder: (_, _) => const SizedBox(height: 12),
       itemBuilder: (context, index) {
         final m = managers[index];
         return Container(
           padding: const EdgeInsets.all(14),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: AppColors.surface,
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: Colors.grey.shade200),
+            border: Border.all(color: AppColors.border),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -33,10 +34,10 @@ class ManagerCardList extends StatelessWidget {
                 children: [
                   CircleAvatar(
                     radius: 18,
-                    backgroundColor: const Color(0xFF6D28D9),
+                    backgroundColor: AppColors.primary,
                     child: Text(
                       m.fullName.isNotEmpty ? m.fullName[0].toUpperCase() : '?',
-                      style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                      style: const TextStyle(color: AppColors.white, fontWeight: FontWeight.bold),
                     ),
                   ),
                   const SizedBox(width: 10),
@@ -44,9 +45,9 @@ class ManagerCardList extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(m.fullName, style: const TextStyle(fontWeight: FontWeight.bold)),
+                        Text(m.fullName, style: const TextStyle(fontWeight: FontWeight.bold, color: AppColors.textPrimary)),
                         Text(m.employeeId,
-                            style: TextStyle(fontSize: 12, color: Colors.grey.shade500)),
+                            style: const TextStyle(fontSize: 12, color: AppColors.textMuted)),
                       ],
                     ),
                   ),
@@ -54,30 +55,30 @@ class ManagerCardList extends StatelessWidget {
                   ManagerActionsMenu(manager: m),
                 ],
               ),
-              const Divider(height: 20),
+              const Divider(height: 20, color: AppColors.border),
               Row(children: [
-                Icon(Icons.apartment_outlined, size: 14, color: Colors.grey.shade500),
+                const Icon(Icons.apartment_outlined, size: 14, color: AppColors.textMuted),
                 const SizedBox(width: 6),
                 Text(
                   m.branchName != null ? '${m.branchCode} — ${m.branchName}' : 'Unassigned',
                   style: TextStyle(
                     fontSize: 13,
-                    color: m.branchName != null ? null : Colors.grey.shade400,
+                    color: m.branchName != null ? AppColors.textPrimary : AppColors.textMuted,
                     fontStyle: m.branchName != null ? FontStyle.normal : FontStyle.italic,
                   ),
                 ),
               ]),
               const SizedBox(height: 8),
               Row(children: [
-                Icon(Icons.email_outlined, size: 14, color: Colors.grey.shade500),
+                const Icon(Icons.email_outlined, size: 14, color: AppColors.textMuted),
                 const SizedBox(width: 6),
-                Expanded(child: Text(m.email, style: const TextStyle(fontSize: 13))),
+                Expanded(child: Text(m.email, style: const TextStyle(fontSize: 13, color: AppColors.textPrimary))),
               ]),
               const SizedBox(height: 4),
               Row(children: [
-                Icon(Icons.phone_outlined, size: 14, color: Colors.grey.shade500),
+                const Icon(Icons.phone_outlined, size: 14, color: AppColors.textMuted),
                 const SizedBox(width: 6),
-                Text(m.phone, style: const TextStyle(fontSize: 13)),
+                Text(m.phone, style: const TextStyle(fontSize: 13, color: AppColors.textPrimary)),
               ]),
             ],
           ),

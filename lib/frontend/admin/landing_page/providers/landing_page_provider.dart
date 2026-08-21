@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 
-import '/core/network/api_exception.dart';
-import '../models/landing_page_model.dart';
+import 'package:erp_software/core/errors/app_exception.dart';
+import 'package:erp_software/core/models/landing_page_model.dart';
 import '../services/landing_page_api_service.dart';
 
 class LandingPageProvider extends ChangeNotifier {

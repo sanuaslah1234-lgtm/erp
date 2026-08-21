@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 
-import '/core/network/api_exception.dart';
-import '../models/inventory_record_model.dart';
-import '../models/inventory_summary_model.dart';
+import 'package:erp_software/core/errors/app_exception.dart';
+import 'package:erp_software/core/models/inventory_record_model.dart';
+import 'package:erp_software/core/models/inventory_summary_model.dart';
 import '../services/reports_api_service.dart';
 
 class InventoryReportsProvider extends ChangeNotifier {

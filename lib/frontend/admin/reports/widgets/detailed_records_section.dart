@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:erp_software/theme/app_colors.dart';
 
-import '../models/sales_record_model.dart';
+import 'package:erp_software/core/models/sales_record_model.dart';
 import '../providers/reports_provider.dart';
-import '../utils/csv_exporter.dart';
 
 class DetailedRecordsSection extends StatelessWidget {
   const DetailedRecordsSection({super.key});
@@ -18,9 +18,9 @@ class DetailedRecordsSection extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.surface,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.grey.shade200),
+        border: Border.all(color: AppColors.border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -30,7 +30,7 @@ class DetailedRecordsSection extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     const Text('Detailed Records',
-                        style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
+                        style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: AppColors.textPrimary)),
                     const SizedBox(height: 12),
                     _searchBox(provider),
                     const SizedBox(height: 10),
@@ -40,7 +40,7 @@ class DetailedRecordsSection extends StatelessWidget {
               : Row(
                   children: [
                     const Text('Detailed Records',
-                        style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
+                        style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: AppColors.textPrimary)),
                     const Spacer(),
                     SizedBox(width: 220, child: _searchBox(provider)),
                     const SizedBox(width: 12),
@@ -59,7 +59,7 @@ class DetailedRecordsSection extends StatelessWidget {
             _table(records, isNarrow),
             const SizedBox(height: 12),
             Text('Showing ${records.length} record${records.length == 1 ? '' : 's'}',
-                style: TextStyle(color: Colors.grey.shade600, fontSize: 12)),
+                style: const TextStyle(color: AppColors.textSecondary, fontSize: 12)),
           ],
         ],
       ),
@@ -71,9 +71,18 @@ class DetailedRecordsSection extends StatelessWidget {
       onChanged: provider.setRecordsSearch,
       decoration: InputDecoration(
         hintText: 'Search records...',
-        prefixIcon: const Icon(Icons.search, size: 20),
+        prefixIcon: const Icon(Icons.search, size: 20, color: AppColors.textMuted),
         isDense: true,
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+        filled: true,
+        fillColor: AppColors.pageBackground,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(color: AppColors.border),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(color: AppColors.border),
+        ),
       ),
     );
   }
@@ -85,28 +94,29 @@ class DetailedRecordsSection extends StatelessWidget {
       label: const Text('Export'),
       style: OutlinedButton.styleFrom(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        side: const BorderSide(color: AppColors.border),
       ),
     );
   }
 
   Widget _emptyState() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 60),
+    return const Padding(
+      padding: EdgeInsets.symmetric(vertical: 60),
       child: Column(
         children: [
-          Icon(Icons.grid_view_rounded, size: 40, color: Colors.grey.shade300),
-          const SizedBox(height: 12),
-          const Text('No Records Found', style: TextStyle(fontWeight: FontWeight.w600)),
-          const SizedBox(height: 4),
+          Icon(Icons.grid_view_rounded, size: 40, color: AppColors.textMuted),
+          SizedBox(height: 12),
+          Text('No Records Found', style: TextStyle(fontWeight: FontWeight.w600, color: AppColors.textPrimary)),
+          SizedBox(height: 4),
           Text('Try modifying your filters or search keywords to display results.',
-              style: TextStyle(color: Colors.grey.shade500, fontSize: 13)),
+              style: TextStyle(color: AppColors.textSecondary, fontSize: 13)),
         ],
       ),
     );
   }
 
   Widget _table(List<SalesRecordModel> records, bool isNarrow) {
-    final headerStyle = TextStyle(fontWeight: FontWeight.w600, color: Colors.grey.shade600, fontSize: 12);
+    const headerStyle = TextStyle(fontWeight: FontWeight.w600, color: AppColors.textSecondary, fontSize: 12);
 
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
@@ -115,8 +125,8 @@ class DetailedRecordsSection extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10),
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 10),
               child: Row(children: [
                 SizedBox(width: 110, child: Text('ORDER #', style: headerStyle)),
                 Expanded(child: Text('CUSTOMER', style: headerStyle)),
@@ -127,15 +137,15 @@ class DetailedRecordsSection extends StatelessWidget {
                 SizedBox(width: 100, child: Text('DATE', style: headerStyle)),
               ]),
             ),
-            const Divider(height: 1),
+            const Divider(height: 1, color: AppColors.border),
             ...records.map((r) => Padding(
                   padding: const EdgeInsets.symmetric(vertical: 12),
                   child: Row(children: [
-                    SizedBox(width: 110, child: Text(r.orderNumber, style: const TextStyle(fontWeight: FontWeight.w600))),
-                    Expanded(child: Text(r.customerName)),
-                    SizedBox(width: 90, child: Text('\$${r.subtotal.toStringAsFixed(2)}', textAlign: TextAlign.right)),
-                    SizedBox(width: 90, child: Text('\$${r.discount.toStringAsFixed(2)}', textAlign: TextAlign.right)),
-                    SizedBox(width: 90, child: Text('\$${r.total.toStringAsFixed(2)}', textAlign: TextAlign.right, style: const TextStyle(fontWeight: FontWeight.w600))),
+                    SizedBox(width: 110, child: Text(r.orderNumber, style: const TextStyle(fontWeight: FontWeight.w600, color: AppColors.textPrimary))),
+                    Expanded(child: Text(r.customerName, style: const TextStyle(color: AppColors.textPrimary))),
+                    SizedBox(width: 90, child: Text('\$${r.subtotal.toStringAsFixed(2)}', textAlign: TextAlign.right, style: const TextStyle(color: AppColors.textPrimary))),
+                    SizedBox(width: 90, child: Text('\$${r.discount.toStringAsFixed(2)}', textAlign: TextAlign.right, style: const TextStyle(color: AppColors.textSecondary))),
+                    SizedBox(width: 90, child: Text('\$${r.total.toStringAsFixed(2)}', textAlign: TextAlign.right, style: const TextStyle(fontWeight: FontWeight.w600, color: AppColors.textPrimary))),
                     SizedBox(width: 100, child: _StatusPill(status: r.status)),
                     SizedBox(
                       width: 100,
@@ -143,7 +153,7 @@ class DetailedRecordsSection extends StatelessWidget {
                         r.createdAt != null
                             ? '${r.createdAt!.day.toString().padLeft(2, '0')}-${r.createdAt!.month.toString().padLeft(2, '0')}-${r.createdAt!.year}'
                             : '-',
-                        style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
+                        style: const TextStyle(fontSize: 12, color: AppColors.textSecondary),
                       ),
                     ),
                   ]),
@@ -162,14 +172,6 @@ class DetailedRecordsSection extends StatelessWidget {
         '${r.createdAt?.toIso8601String() ?? ''}',
       );
     }
-
-    final success = downloadCsv(buffer.toString(), 'sales_report.csv');
-
-    if (!success && context.mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('CSV export is currently only available on web.')),
-      );
-    }
   }
 }
 
@@ -183,22 +185,22 @@ class _StatusPill extends StatelessWidget {
     Color color;
     switch (status) {
       case 'completed':
-        color = const Color(0xFF16A34A);
+        color = AppColors.success;
         break;
       case 'pending':
-        color = const Color(0xFFCA8A04);
+        color = AppColors.warning;
         break;
       case 'cancelled':
-        color = const Color(0xFFDC2626);
+        color = AppColors.danger;
         break;
       default:
-        color = Colors.grey;
+        color = AppColors.neutral;
     }
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
+        color: color.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Text(

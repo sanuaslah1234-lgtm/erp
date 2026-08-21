@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 
-import '/core/network/api_exception.dart';
-import '../models/purchase_record_model.dart';
-import '../models/purchase_summary_model.dart';
+import 'package:erp_software/core/errors/app_exception.dart';
+import 'package:erp_software/core/models/purchase_record_model.dart';
+import 'package:erp_software/core/models/purchase_summary_model.dart';
 import '../services/reports_api_service.dart';
 import 'reports_provider.dart' show DateShortcut;
 

@@ -1,31 +1,27 @@
-import 'package:erp_software/frontend/admin/reports/screens/reports_screen.dart';
+import 'package:erp_software/frontend/admin/landing_page/screens/landing_page_screen.dart';
+import 'package:erp_software/frontend/admin/settings/screens/settings_screen.dart';
+import 'package:erp_software/frontend/screens/admin/branch_screen.dart';
+import 'package:erp_software/frontend/screens/admin/manager_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'frontend/admin/audit_log/providers/audit_log_provider.dart';
-import 'frontend/admin/audit_log/screens/audit_log_screen.dart';
-// import 'frontend/admin/audit_log/screens/employee_timeline_screen.dart';
 import 'frontend/admin/branch/providers/branch_provider.dart';
-import 'frontend/admin/branch/screens/branch_screen.dart';
 import 'frontend/admin/landing_page/providers/landing_page_provider.dart';
-import 'frontend/admin/landing_page/screens/landing_page_screen.dart';
 import 'frontend/admin/manager/providers/manager_provider.dart';
-import 'frontend/admin/manager/screens/manager_screen.dart';
-import 'frontend/admin/reports/providers/reports_provider.dart';
-import 'frontend/admin/reports/providers/purchase_reports_provider.dart';
 import 'frontend/admin/reports/providers/inventory_reports_provider.dart';
+import 'frontend/admin/reports/providers/purchase_reports_provider.dart';
+import 'frontend/admin/reports/providers/reports_provider.dart';
 import 'frontend/admin/settings/providers/settings_provider.dart';
-import 'frontend/admin/settings/screens/settings_screen.dart';
-
-/// ⚠️ This file is a STANDALONE test harness for the Branch module only.
-/// Your real app already has main.dart + the shared sidebar/topbar shell
-/// your teammate built. Don't overwrite your real main.dart with this —
-/// instead:
-///   1. Add ChangeNotifierProvider<BranchProvider> near the root of your
-///      existing provider tree (see below).
-///   2. Put `const BranchScreen()` as the body when the "Branch" sidebar
-///      item is selected.
-
+import 'frontend/providers/auth_provider.dart';
+import 'frontend/providers/cashier/barcode_provider.dart';
+import 'frontend/providers/cashier/cashier_settings_provider.dart';
+import 'frontend/providers/cashier/order_provider.dart';
+import 'frontend/providers/cashier/pos_provider.dart';
+import 'frontend/providers/cashier/refund_provider.dart';
+import 'frontend/providers/employee_provider.dart';
+import 'frontend/screens/dashboard/dashboard_screen.dart';
+import 'theme/app_theme.dart';
 
 void main() {
   runApp(const ErpApp());
@@ -38,6 +34,13 @@ class ErpApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (_) => AuthProvider()),
+        ChangeNotifierProvider(create: (_) => EmployeeProvider()),
+        ChangeNotifierProvider(create: (_) => PosProvider()),
+        ChangeNotifierProvider(create: (_) => OrderProvider()),
+        ChangeNotifierProvider(create: (_) => BarcodeProvider()),
+        ChangeNotifierProvider(create: (_) => RefundProvider()),
+        ChangeNotifierProvider(create: (_) => CashierSettingsProvider()),
         ChangeNotifierProvider(create: (_) => BranchProvider()),
         ChangeNotifierProvider(create: (_) => ReportsProvider()),
         ChangeNotifierProvider(create: (_) => PurchaseReportsProvider()),
@@ -48,16 +51,12 @@ class ErpApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => LandingPageProvider()),
       ],
       child: MaterialApp(
-        title: 'ERP Admin',
+        title: 'Retail ERP',
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          useMaterial3: true,
-          colorSchemeSeed: const Color(0xFF2563EB),
-          scaffoldBackgroundColor: const Color(0xFFF8FAFC),
-        ),
+        theme: AppTheme.lightTheme,
         home: const Scaffold(
-          body: SafeArea(child:ReportsScreen()),
-        ),
+          body: SafeArea(child: SettingsScreen()),
+        )
       ),
     );
   }

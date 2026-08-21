@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:erp_software/theme/app_colors.dart';
 
-import '../models/manager_model.dart';
+import 'package:erp_software/core/models/manager_model.dart';
 import '../providers/manager_provider.dart';
 import 'manager_form_dialog.dart';
 
@@ -13,7 +14,8 @@ class ManagerActionsMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton<String>(
-      icon: const Icon(Icons.more_vert),
+      icon: const Icon(Icons.more_vert, color: AppColors.textSecondary),
+      color: AppColors.surface,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       onSelected: (value) {
         if (value == 'edit') {
@@ -29,17 +31,17 @@ class ManagerActionsMenu extends StatelessWidget {
         PopupMenuItem(
           value: 'edit',
           child: Row(children: [
-            Icon(Icons.edit_outlined, size: 18),
+            Icon(Icons.edit_outlined, size: 18, color: AppColors.primary),
             SizedBox(width: 10),
-            Text('Edit'),
+            Text('Edit', style: TextStyle(color: AppColors.textPrimary)),
           ]),
         ),
         PopupMenuItem(
           value: 'delete',
           child: Row(children: [
-            Icon(Icons.delete_outline, size: 18, color: Colors.red),
+            Icon(Icons.delete_outline, size: 18, color: AppColors.danger),
             SizedBox(width: 10),
-            Text('Delete', style: TextStyle(color: Colors.red)),
+            Text('Delete', style: TextStyle(color: AppColors.danger)),
           ]),
         ),
       ],
@@ -52,10 +54,12 @@ class ManagerActionsMenu extends StatelessWidget {
     showDialog(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        title: const Text('Delete Manager'),
+        backgroundColor: AppColors.surface,
+        title: const Text('Delete Manager', style: TextStyle(color: AppColors.textPrimary)),
         content: Text(
           'Are you sure you want to delete "${manager.fullName}" (${manager.employeeId})? '
           'This will remove their login access. This action cannot be undone.',
+          style: const TextStyle(color: AppColors.textSecondary),
         ),
         actions: [
           TextButton(
@@ -63,7 +67,7 @@ class ManagerActionsMenu extends StatelessWidget {
             child: const Text('Cancel'),
           ),
           FilledButton(
-            style: FilledButton.styleFrom(backgroundColor: Colors.red),
+            style: FilledButton.styleFrom(backgroundColor: AppColors.danger, foregroundColor: AppColors.white),
             onPressed: () async {
               Navigator.of(dialogContext).pop();
               final success = await provider.deleteManager(manager.id!);
@@ -75,7 +79,7 @@ class ManagerActionsMenu extends StatelessWidget {
                           ? 'Manager deleted successfully'
                           : provider.errorMessage ?? 'Failed to delete manager',
                     ),
-                    backgroundColor: success ? Colors.green : Colors.red,
+                    backgroundColor: success ? AppColors.success : AppColors.danger,
                   ),
                 );
               }
@@ -87,3 +91,4 @@ class ManagerActionsMenu extends StatelessWidget {
     );
   }
 }
+

@@ -1,4 +1,4 @@
-import '../models/manager_model.dart';
+import 'package:erp_software/core/models/manager_model.dart';
 import '../repositories/manager_repository.dart';
 
 class ManagerValidationException implements Exception {

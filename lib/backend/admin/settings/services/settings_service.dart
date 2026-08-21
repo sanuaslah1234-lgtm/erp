@@ -1,4 +1,4 @@
-import '../models/business_settings_model.dart';
+import 'package:erp_software/core/models/business_settings_model.dart';
 import '../repositories/settings_repository.dart';
 
 class SettingsValidationException implements Exception {

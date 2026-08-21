@@ -3,11 +3,9 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:erp_software/theme/app_colors.dart';
 
-/// A real, working image picker: tap to choose a file from disk/gallery,
-/// it's read into memory, base64-encoded, previewed immediately, and handed
-/// back via [onChanged]. Nothing here is a static asset — every image shown
-/// is either what's currently saved in the database or what you just picked.
+/// A real, working image picker: tap to choose a file from disk/gallery.
 class ImagePickerField extends StatelessWidget {
   final String label;
   final String? base64Value;
@@ -36,7 +34,7 @@ class ImagePickerField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: TextStyle(fontSize: 13, color: Colors.grey.shade700)),
+        Text(label, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: AppColors.textSecondary)),
         const SizedBox(height: 6),
         InkWell(
           onTap: _pick,
@@ -44,16 +42,17 @@ class ImagePickerField extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
             decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey.shade300),
+              color: AppColors.pageBackground,
+              border: Border.all(color: AppColors.border),
               borderRadius: BorderRadius.circular(10),
             ),
             child: Row(
               children: [
-                Icon(Icons.upload_file_outlined, size: 18, color: Colors.grey.shade600),
+                const Icon(Icons.upload_file_outlined, size: 18, color: AppColors.textSecondary),
                 const SizedBox(width: 10),
                 Text(
                   base64Value != null ? 'Change file' : 'Choose file — No file chosen',
-                  style: TextStyle(color: Colors.grey.shade700),
+                  style: const TextStyle(color: AppColors.textSecondary),
                 ),
               ],
             ),

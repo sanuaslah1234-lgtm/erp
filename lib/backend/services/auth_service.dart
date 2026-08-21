@@ -1,16 +1,16 @@
 import 'package:bcrypt/bcrypt.dart';
-import 'package:erp_software/backend/models/auth_response_model.dart';
+import 'package:erp_software/core/models/auth_response_model.dart';
 import 'package:erp_software/backend/repositories/auth_repository.dart';
-import 'package:erp_software/backend/repositories/employee_repository.dart';
 import 'package:erp_software/backend/repositories/otp_repository.dart';
 import 'package:erp_software/backend/services/email_service.dart';
+import 'package:erp_software/backend/services/employee_service.dart';
 import 'package:erp_software/backend/services/jwt_service.dart';
 import 'package:erp_software/backend/services/password_service.dart';
-import 'package:erp_software/core/errors/api_exception.dart';
+import 'package:erp_software/core/errors/app_exception.dart';
 
 class AuthService {
   final AuthRepository authRepository;
-  final EmployeeRepository employeeRepository;
+  final EmployeeService employeeRepository;
   final OtpRepository? otpRepository;
   final EmailService? emailService;
 
@@ -39,7 +39,7 @@ class AuthService {
 
     await authRepository.updateLastLogin(user.id!);
 
-    final employee = await employeeRepository.getEmployeeByUserId(user.id!);
+    final employee = await employeeRepository.getEmployeeById(user.id.toString());
 
     final token = JwtService.generateToken(
       JwtPayload(
@@ -63,7 +63,7 @@ class AuthService {
       throw ApiException('User not found', statusCode: 404);
     }
 
-    final employee = await employeeRepository.getEmployeeByUserId(user.id!);
+    final employee = await employeeRepository.getEmployeeById(user.id.toString());
 
     final token = JwtService.generateToken(
       JwtPayload(
@@ -151,3 +151,4 @@ class AuthService {
     }
   }
 }
+

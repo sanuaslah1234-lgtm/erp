@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:erp_software/theme/app_colors.dart';
 
 import '../providers/landing_page_provider.dart';
 import 'image_picker_field.dart';
@@ -24,7 +25,7 @@ class AboutSectionForm extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('About Section', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF2563EB))),
+        const Text('About Section', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.primary)),
         const SizedBox(height: 16),
         SectionTextField(label: 'About Tag', value: d.aboutTag, onChanged: (v) => provider.update(aboutTag: v)),
         const SizedBox(height: 16),

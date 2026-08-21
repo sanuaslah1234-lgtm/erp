@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:erp_software/theme/app_colors.dart';
 
 import '../providers/purchase_reports_provider.dart';
 
@@ -64,7 +65,7 @@ class _DateField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: TextStyle(fontSize: 13, color: Colors.grey.shade700)),
+        Text(label, style: const TextStyle(fontSize: 13, color: AppColors.textSecondary)),
         const SizedBox(height: 6),
         InkWell(
           onTap: onTap,
@@ -72,14 +73,15 @@ class _DateField extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
             decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey.shade300),
+              color: AppColors.pageBackground,
+              border: Border.all(color: AppColors.border),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(value),
-                Icon(Icons.calendar_today_outlined, size: 16, color: Colors.grey.shade500),
+                Text(value, style: const TextStyle(color: AppColors.textPrimary)),
+                const Icon(Icons.calendar_today_outlined, size: 16, color: AppColors.textMuted),
               ],
             ),
           ),

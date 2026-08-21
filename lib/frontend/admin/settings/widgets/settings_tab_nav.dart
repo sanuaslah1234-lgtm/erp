@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:erp_software/theme/app_colors.dart';
 
 enum SettingsTab { businessProfile, localizationFinance, invoicingSales, inventoryPos, securitySystem }
 
@@ -23,7 +24,7 @@ class SettingsTabNav extends StatelessWidget {
       children: _items.map((item) {
         final isSelected = selected == item.$1;
         return Material(
-          color: isSelected ? const Color(0xFFEFF6FF) : Colors.transparent,
+          color: isSelected ? AppColors.primarySoft : Colors.transparent,
           borderRadius: BorderRadius.circular(8),
           child: InkWell(
             borderRadius: BorderRadius.circular(8),
@@ -33,7 +34,7 @@ class SettingsTabNav extends StatelessWidget {
               child: Row(
                 children: [
                   Icon(item.$2,
-                      size: 18, color: isSelected ? const Color(0xFF2563EB) : Colors.grey.shade600),
+                      size: 18, color: isSelected ? AppColors.primary : AppColors.textSecondary),
                   const SizedBox(width: 10),
                   Expanded(
                     child: Text(
@@ -41,7 +42,7 @@ class SettingsTabNav extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 13.5,
                         fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-                        color: isSelected ? const Color(0xFF2563EB) : Colors.grey.shade800,
+                        color: isSelected ? AppColors.primary : AppColors.textPrimary,
                       ),
                     ),
                   ),

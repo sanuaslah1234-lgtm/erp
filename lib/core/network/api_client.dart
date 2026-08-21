@@ -1,8 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-
-import 'api_exception.dart';
-
+import '../errors/app_exception.dart';
 /// Thin wrapper around package:http that:
 ///  - always sends/expects JSON
 ///  - unwraps your backend's { success, message, data } envelope

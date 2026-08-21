@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:erp_software/theme/app_colors.dart';
 
 import '../providers/reports_provider.dart';
 
@@ -21,28 +22,28 @@ class SummaryCards extends StatelessWidget {
         value: _money(summary.totalRevenue),
         subtitle: 'Net sales sum',
         icon: Icons.attach_money,
-        color: const Color(0xFF2563EB),
+        color: AppColors.primary,
       ),
       _StatCard(
         label: 'SALES ORDERS',
         value: summary.salesOrders.toString(),
         subtitle: 'Completed orders',
         icon: Icons.description_outlined,
-        color: const Color(0xFF16A34A),
+        color: AppColors.success,
       ),
       _StatCard(
         label: 'AVERAGE VALUE',
         value: _money(summary.averageValue),
         subtitle: 'Per transaction',
         icon: Icons.trending_up,
-        color: const Color(0xFF0891B2),
+        color: AppColors.info,
       ),
       _StatCard(
         label: 'TOTAL DISCOUNTS',
         value: _money(summary.totalDiscounts),
         subtitle: 'Saved by customers',
         icon: Icons.warning_amber_rounded,
-        color: const Color(0xFFEA580C),
+        color: AppColors.warning,
       ),
     ];
 
@@ -78,9 +79,9 @@ class _StatCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.surface,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.grey.shade200),
+        border: Border.all(color: AppColors.border),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -91,27 +92,27 @@ class _StatCard extends StatelessWidget {
               children: [
                 Text(
                   label,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 11,
                     fontWeight: FontWeight.w600,
-                    color: Colors.grey.shade500,
+                    color: AppColors.textMuted,
                     letterSpacing: 0.5,
                   ),
                 ),
                 const SizedBox(height: 6),
                 Text(
                   value,
-                  style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                  style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: AppColors.textPrimary),
                 ),
                 const SizedBox(height: 4),
-                Text(subtitle, style: TextStyle(fontSize: 12, color: Colors.grey.shade500)),
+                Text(subtitle, style: const TextStyle(fontSize: 12, color: AppColors.textSecondary)),
               ],
             ),
           ),
           Container(
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(10)),
-            child: Icon(icon, color: Colors.white, size: 20),
+            child: Icon(icon, color: AppColors.white, size: 20),
           ),
         ],
       ),

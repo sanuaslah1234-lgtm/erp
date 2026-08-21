@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:erp_software/frontend/models/cashier/product.dart';
+import 'package:erp_software/core/models/cashier/product.dart';
 import 'package:http/http.dart' as http;
 
 class PosApiService {
@@ -12,7 +12,7 @@ class PosApiService {
 
   Future<List<Product>> getProducts(String? token, {String? search, int? categoryId}) async {
     try {
-      final uri = Uri.parse('$baseUrl/products').replace(queryParameters: {
+      final uri = Uri.parse('$baseUrl/api/products').replace(queryParameters: {
         if (search != null && search.isNotEmpty) 'search': search,
         if (categoryId != null && categoryId > 0) 'categoryId': categoryId.toString(),
       });
@@ -34,7 +34,7 @@ class PosApiService {
 
   Future<Product> getProductByBarcode(String? token, String barcode) async {
     final response = await http
-        .get(Uri.parse('$baseUrl/products/barcode/$barcode'), headers: _headers(token))
+        .get(Uri.parse('$baseUrl/api/products/barcode/$barcode'), headers: _headers(token))
         .timeout(const Duration(seconds: 4));
 
     final body = jsonDecode(response.body);
@@ -47,7 +47,7 @@ class PosApiService {
 
   Future<List<Map<String, dynamic>>> getCategories(String? token) async {
     try {
-      final response = await http.get(Uri.parse('$baseUrl/categories'), headers: _headers(token)).timeout(const Duration(seconds: 4));
+      final response = await http.get(Uri.parse('$baseUrl/api/categories'), headers: _headers(token)).timeout(const Duration(seconds: 4));
       final body = jsonDecode(response.body);
       if (response.statusCode == 200 && body['success'] == true) {
         return (body['data'] as List).cast<Map<String, dynamic>>();

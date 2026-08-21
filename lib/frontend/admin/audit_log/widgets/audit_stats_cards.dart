@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:erp_software/theme/app_colors.dart';
 
 import '../providers/audit_log_provider.dart';
 
@@ -18,25 +19,25 @@ class AuditStatsCards extends StatelessWidget {
         value: stats.totalLogs.toString(),
         label: 'Total Logs',
         icon: Icons.show_chart,
-        color: const Color(0xFF6D28D9),
+        color: AppColors.primary,
       ),
       _StatCard(
         value: stats.employeeEvents.toString(),
         label: 'Employee Events',
         icon: Icons.person_outline,
-        color: const Color(0xFF16A34A),
+        color: AppColors.success,
       ),
       _StatCard(
         value: stats.authEvents.toString(),
         label: 'Auth Events',
         icon: Icons.shield_outlined,
-        color: const Color(0xFFCA8A04),
+        color: AppColors.warning,
       ),
       _StatCard(
         value: stats.today.toString(),
         label: 'Today',
         icon: Icons.access_time,
-        color: const Color(0xFFDC2626),
+        color: AppColors.danger,
       ),
     ];
 
@@ -65,16 +66,16 @@ class _StatCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.surface,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.grey.shade200),
+        border: Border.all(color: AppColors.border),
       ),
       child: Row(
         children: [
           Container(
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: color.withOpacity(0.1),
+              color: color.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(10),
             ),
             child: Icon(icon, color: color, size: 20),
@@ -82,9 +83,10 @@ class _StatCard extends StatelessWidget {
           const SizedBox(width: 12),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(value, style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
-              Text(label, style: TextStyle(fontSize: 12.5, color: Colors.grey.shade600)),
+              Text(value, style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: AppColors.textPrimary)),
+              Text(label, style: const TextStyle(fontSize: 12.5, color: AppColors.textSecondary)),
             ],
           ),
         ],

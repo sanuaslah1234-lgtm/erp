@@ -1,4 +1,4 @@
-import '../models/sales_record_model.dart';
+import 'package:erp_software/core/models/sales_record_model.dart';
 import '../repositories/reports_repository.dart';
 
 class ReportsService {

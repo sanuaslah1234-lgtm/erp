@@ -1,4 +1,4 @@
-import '../models/audit_log_model.dart';
+import 'package:erp_software/core/models/audit_log_model.dart';
 import '../repositories/audit_log_repository.dart';
 
 class AuditLogService {

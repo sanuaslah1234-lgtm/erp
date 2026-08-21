@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:erp_software/theme/app_colors.dart';
 
 class ActionBadge extends StatelessWidget {
   final String action;
@@ -8,17 +9,17 @@ class ActionBadge extends StatelessWidget {
   static Color colorFor(String action) {
     switch (action) {
       case 'LOGIN':
-        return const Color(0xFF7C3AED);
+        return AppColors.electronics;
       case 'LOGOUT':
-        return Colors.grey;
+        return AppColors.neutral;
       case 'CREATE':
-        return const Color(0xFF16A34A);
+        return AppColors.success;
       case 'UPDATE':
-        return const Color(0xFF2563EB);
+        return AppColors.primary;
       case 'DELETE':
-        return const Color(0xFFDC2626);
+        return AppColors.danger;
       default:
-        return Colors.grey;
+        return AppColors.neutral;
     }
   }
 
@@ -45,7 +46,7 @@ class ActionBadge extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
+        color: color.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Text(
