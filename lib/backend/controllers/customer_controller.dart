@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:shelf/shelf.dart';
 
-import '../models/customer_model.dart';
+import 'package:erp_software/core/models/customer_model.dart';
 import '../services/customer_service.dart';
 
 class CustomerController {

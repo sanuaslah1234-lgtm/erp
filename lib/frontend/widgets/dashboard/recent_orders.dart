@@ -1,4 +1,4 @@
-import 'package:erp_software/frontend/screens/branchManager/customer/constomer.dart';
+import 'package:erp_software/frontend/screens/customers/customers_screen.dart';
 import 'package:flutter/material.dart';
 import '../../../theme/app_colors.dart';
 
@@ -279,7 +279,7 @@ class RecentOrders extends StatelessWidget {
       ),
 
       decoration: BoxDecoration(
-        color: color.withOpacity(0.10),
+        color: color.withValues(alpha: 0.10),
         borderRadius: BorderRadius.circular(20),
       ),
 
@@ -294,3 +294,4 @@ class RecentOrders extends StatelessWidget {
     );
   }
 }
+

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:erp_software/frontend/models/employee_model.dart';
+import 'package:erp_software/core/models/employee_model.dart';
 import 'package:erp_software/theme/app_colors.dart';
 
 class EmployeeDeleteSheet extends StatelessWidget {

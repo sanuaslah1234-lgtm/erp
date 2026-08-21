@@ -1,197 +1,139 @@
+import 'dart:io';
+import 'package:erp_software/backend/database/postgres_service.dart';
+import 'package:erp_software/backend/database/migration_runner.dart';
+import 'package:erp_software/backend/server.dart';
+import 'package:erp_software/core/config/app_config.dart';
+import 'package:shelf/shelf_io.dart' as shelf_io;
+
+import 'package:erp_software/backend/controllers/auth_controller.dart';
 import 'package:erp_software/backend/controllers/customer_controller.dart';
 import 'package:erp_software/backend/controllers/employee_controller.dart';
 import 'package:erp_software/backend/controllers/inventory_controller.dart';
 import 'package:erp_software/backend/controllers/product_controller.dart';
 import 'package:erp_software/backend/controllers/warehouse_controller.dart';
 
-import 'package:erp_software/backend/database/migration_runner.dart';
-import 'package:erp_software/backend/database/postgres_service.dart';
+// Unused imports removed
+import 'package:erp_software/backend/routes/app_router.dart';
 
-import 'package:erp_software/backend/routes/customer_routes.dart';
-import 'package:erp_software/backend/routes/employee_routes.dart';
-import 'package:erp_software/backend/routes/inventory_routes.dart';
-import 'package:erp_software/backend/routes/product_routes.dart';
-import 'package:erp_software/backend/routes/warehouse_routes.dart';
-
+import 'package:erp_software/backend/services/auth_service.dart';
 import 'package:erp_software/backend/services/customer_service.dart';
 import 'package:erp_software/backend/services/employee_service.dart';
 import 'package:erp_software/backend/services/inventory_service.dart';
 import 'package:erp_software/backend/services/product_service.dart';
 import 'package:erp_software/backend/services/warehouse_service.dart';
 
-import 'package:shelf/shelf.dart';
-import 'package:shelf/shelf_io.dart' as shelf_io;
-import 'package:shelf_router/shelf_router.dart';
+import 'package:erp_software/backend/repositories/auth_repository.dart';
 
+// Admin Imports
+import 'package:erp_software/backend/admin/audit_log/services/audit_log_service.dart';
+import 'package:erp_software/backend/admin/branch/services/branch_service.dart';
+import 'package:erp_software/backend/admin/landing_page/services/landing_page_service.dart';
+import 'package:erp_software/backend/admin/manager/services/manager_service.dart';
+import 'package:erp_software/backend/admin/reports/services/reports_service.dart';
+import 'package:erp_software/backend/admin/settings/services/settings_service.dart';
 
-// ============================================================
-// CORS
-// ============================================================
+import 'package:erp_software/backend/admin/audit_log/controllers/audit_log_controller.dart';
+import 'package:erp_software/backend/admin/branch/controllers/branch_controller.dart';
+import 'package:erp_software/backend/admin/landing_page/controllers/landing_page_controller.dart';
+import 'package:erp_software/backend/admin/manager/controllers/manager_controller.dart';
+import 'package:erp_software/backend/admin/reports/controllers/reports_controller.dart';
+import 'package:erp_software/backend/admin/settings/controllers/settings_controller.dart';
 
-Middleware corsMiddleware() {
-  return (Handler handler) {
-    return (Request request) async {
-      // Handle browser preflight request
-      if (request.method == 'OPTIONS') {
-        return Response.ok(
-          '',
-          headers: {
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Methods':
-                'GET, POST, PUT, DELETE, PATCH, OPTIONS',
-            'Access-Control-Allow-Headers':
-                'Origin, Content-Type, Accept',
-          },
-        );
-      }
-
-      final response = await handler(request);
-
-      return response.change(
-        headers: {
-          ...response.headers,
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods':
-              'GET, POST, PUT, DELETE, PATCH, OPTIONS',
-          'Access-Control-Allow-Headers':
-              'Origin, Content-Type, Accept',
-        },
-      );
-    };
-  };
-}
-
-
-// ============================================================
-// MAIN
-// ============================================================
+import 'package:erp_software/backend/admin/audit_log/repositories/audit_log_repository.dart';
+import 'package:erp_software/backend/admin/branch/repositories/branch_repository.dart';
+import 'package:erp_software/backend/admin/landing_page/repositories/landing_page_repository.dart';
+import 'package:erp_software/backend/admin/manager/repositories/manager_repository.dart';
+import 'package:erp_software/backend/admin/reports/repositories/reports_repository.dart';
+import 'package:erp_software/backend/admin/settings/repositories/settings_repository.dart';
 
 Future<void> main() async {
+  print('Starting ERP Backend...');
 
-  // ==========================================================
-  // POSTGRESQL
-  // ==========================================================
-
+  // Initialize DB Connection
   final postgresService = PostgresService();
+  try {
+    await postgresService.connect();
+    
+    // Run Migrations
+    print('Checking migrations...');
+    final migrationRunner = MigrationRunner(postgresService);
+    await migrationRunner.runMigrations();
+    
+  } catch (e) {
+    print('Startup failed: $e');
+    print('Ensure PostgreSQL is running and .env is configured correctly.');
+    exit(1);
+  }
 
-  await postgresService.connect();
+  // Initialize Repositories (Add others as needed)
+  final authRepository = AuthRepository(postgresService);
 
-
-  // ==========================================================
-  // MIGRATIONS
-  // ==========================================================
-
-  final migrationRunner = MigrationRunner(
-    postgresService,
-  );
-
-  await migrationRunner.runMigrations();
-
-
-  // ==========================================================
-  // CUSTOMER
-  // ==========================================================
-
-  final customerService = CustomerService(
-    postgresService,
-  );
-
-  final customerController = CustomerController(
-    customerService,
-  );
-
-
-  // ==========================================================
-  // INVENTORY
-  // ==========================================================
-
-  final inventoryService = InventoryService(
-    postgresService,
-  );
-
-  final inventoryController = InventoryController(
-    inventoryService,
-  );
-
-  // ==========================================================
-  // PRODUCTS
-  // ==========================================================
-
+  // Initialize Services
+  final customerService = CustomerService(postgresService);
+  final inventoryService = InventoryService(postgresService);
   final productService = ProductService(postgresService);
-
-  final productController = ProductController(productService);
-
-
   final warehouseService = WarehouseService(postgresService);
-  final warehouseController = WarehouseController(warehouseService);
-
   final employeeService = EmployeeService(postgresService);
+
+  final authService = AuthService(
+    authRepository: authRepository,
+    employeeRepository: employeeService,
+  );
+
+  // Initialize Admin Repositories
+  final auditLogRepository = AuditLogRepository(postgresService.connection);
+  final branchRepository = BranchRepository(postgresService.connection);
+  final landingPageRepository = LandingPageRepository(postgresService.connection);
+  final managerRepository = ManagerRepository(postgresService.connection);
+  final reportsRepository = ReportsRepository(postgresService.connection);
+  final settingsRepository = SettingsRepository(postgresService.connection);
+
+  // Initialize Admin Services
+  final auditLogService = AuditLogService(auditLogRepository);
+  final branchService = BranchService(branchRepository);
+  final landingPageService = LandingPageService(landingPageRepository);
+  final managerService = ManagerService(managerRepository);
+  final reportsService = ReportsService(reportsRepository);
+  final settingsService = SettingsService(settingsRepository);
+
+  // Initialize Controllers
+  final authController = AuthController(authService);
+  final customerController = CustomerController(customerService);
+  final inventoryController = InventoryController(inventoryService);
+  final productController = ProductController(productService);
+  final warehouseController = WarehouseController(warehouseService);
   final employeeController = EmployeeController(employeeService);
-  // ==========================================================
-  // ROUTER
-  // ==========================================================
 
-  final router = Router();
+  // Initialize Admin Controllers
+  final auditLogController = AuditLogController(auditLogService);
+  final branchController = BranchController(branchService);
+  final landingPageController = LandingPageController(landingPageService);
+  final managerController = ManagerController(managerService);
+  final reportsController = ReportsController(reportsService);
+  final settingsController = SettingsController(settingsService);
 
-
-  // ==========================================================
-  // CUSTOMER ROUTES
-  // ==========================================================
-
-  router.mount(
-    '/',
-    customerRoutes(
-      customerController,
-    ).call,
+  // Setup App Router
+  final appRouter = AppRouter(
+    authController: authController,
+    customerController: customerController,
+    employeeController: employeeController,
+    inventoryController: inventoryController,
+    productController: productController,
+    warehouseController: warehouseController,
+    auditLogController: auditLogController,
+    branchController: branchController,
+    landingPageController: landingPageController,
+    managerController: managerController,
+    reportsController: reportsController,
+    settingsController: settingsController,
   );
 
+  // Setup Server
+  final server = BackendServer(postgresService);
+  server.setupRoutes(appRouter);
 
-  // ==========================================================
-  // INVENTORY ROUTES
-  // ==========================================================
-
-  router.mount(
-    '/',
-    inventoryRoutes(
-      inventoryController,
-    ).call,
-  );
-
-
-  // ==========================================================
-  // PRODUTS ROUTES
-  // ==========================================================
-
-  router.mount('/', productRoutes(productController).call);
-  router.mount('/', warehouseRoutes(warehouseController).call);
-  router.mount('/', employeeRoutes(employeeController).call);
-  // ==========================================================
-  // MIDDLEWARE
-  // ==========================================================
-
-  final handler = Pipeline()
-      .addMiddleware(
-        corsMiddleware(),
-      )
-      .addMiddleware(
-        logRequests(),
-      )
-      .addHandler(
-        router.call,
-      );
-
-
-  // ==========================================================
-  // SERVER
-  // ==========================================================
-
-  final server = await shelf_io.serve(
-    handler,
-    '0.0.0.0',
-    5000,
-  );
-
-  print(
-    'Server running on http://localhost:${server.port}',
-  );
+  // Start Server
+  final port = AppConfig.apiPort;
+  final shelfServer = await shelf_io.serve(server.handler, '0.0.0.0', port);
+  print('✅ ERP Backend running securely on http://localhost:${shelfServer.port}');
 }

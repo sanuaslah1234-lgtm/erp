@@ -1,7 +1,7 @@
 import 'package:postgres/postgres.dart';
 
 import '../database/postgres_service.dart';
-import '../models/inventory_model.dart';
+import 'package:erp_software/core/models/inventory_model.dart';
 
 class InventoryService {
   final PostgresService postgresService;

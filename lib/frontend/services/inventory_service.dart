@@ -1,15 +1,15 @@
 import 'dart:convert';
 
-import 'package:erp_software/main.dart';
+import 'package:erp_software/core/constants/app_constants.dart';
 import 'package:http/http.dart' as http;
 
-import '../models/inventory_model.dart';
+import 'package:erp_software/core/models/inventory_model.dart';
 import 'package:flutter/material.dart';
 class InventoryService {
 
-  static const String baseUrl = ApiConfig.baseUrl;
+  static const String baseUrl = AppConstants.apiBaseUrl;
 
-  Future<List<InventoryItem>> getInventory({
+  Future<List<InventoryModel>> getInventory({
     String? search,
     String? warehouseId,
     String? status,
@@ -32,7 +32,7 @@ class InventoryService {
       }
 
       final uri = Uri.parse(
-        '$baseUrl/inventory',
+        '$baseUrl/api/inventory',
       ).replace(
         queryParameters:
             queryParameters.isEmpty
@@ -82,7 +82,7 @@ class InventoryService {
 
       return data
           .map(
-            (json) => InventoryItem.fromJson(
+            (json) => InventoryModel.fromJson(
               Map<String, dynamic>.from(json),
             ),
           )
@@ -98,13 +98,13 @@ class InventoryService {
   // GET INVENTORY BY ID
   // ==========================================================
 
-  Future<InventoryItem> getInventoryById(
+  Future<InventoryModel> getInventoryById(
     String id,
   ) async {
     try {
       final response = await http.get(
         Uri.parse(
-          '$baseUrl/inventory/$id',
+          '$baseUrl/api/inventory/$id',
         ),
       );
 
@@ -123,7 +123,7 @@ class InventoryService {
               ? decoded['data']
               : decoded;
 
-      return InventoryItem.fromJson(
+      return InventoryModel.fromJson(
         Map<String, dynamic>.from(data),
       );
     } catch (e) {
@@ -137,7 +137,7 @@ class InventoryService {
   // CREATE INVENTORY
   // ==========================================================
 
-  // Future<InventoryItem> createInventory({
+  // Future<InventoryModel> createInventory({
   //   required String productId,
   //   required String warehouseId,
   //   required int quantity,
@@ -148,7 +148,7 @@ class InventoryService {
   //   try {
   //     final response = await http.post(
   //       Uri.parse(
-  //         '$baseUrl/inventory',
+  //         '$baseUrl/api/inventory',
   //       ),
   //       headers: {
   //         'Content-Type':
@@ -181,7 +181,7 @@ class InventoryService {
   //             ? decoded['data']
   //             : decoded;
 
-  //     return InventoryItem.fromJson(
+  //     return InventoryModel.fromJson(
   //       Map<String, dynamic>.from(data),
   //     );
   //   } catch (e) {
@@ -197,7 +197,7 @@ class InventoryService {
   // TEMPORARY CREATE INVENTORY
   //===========================================================
 
-  Future<InventoryItem> createInventory({
+  Future<InventoryModel> createInventory({
   required String productId,
   required String warehouseId,
   required int quantity,
@@ -206,7 +206,7 @@ class InventoryService {
   required int reorderLevel,
 }) async {
   try {
-    final uri = Uri.parse('$baseUrl/inventory');
+    final uri = Uri.parse('$baseUrl/api/inventory');
 
     final body = {
       'productId': productId,
@@ -255,7 +255,7 @@ class InventoryService {
       );
     }
 
-    return InventoryItem.fromJson(
+    return InventoryModel.fromJson(
       Map<String, dynamic>.from(data),
     );
   } catch (e) {
@@ -272,7 +272,7 @@ class InventoryService {
   // UPDATE INVENTORY
   // ==========================================================
 
-  Future<InventoryItem> updateInventory({
+  Future<InventoryModel> updateInventory({
     required String id,
     required String productId,
     required String warehouseId,
@@ -284,7 +284,7 @@ class InventoryService {
     try {
       final response = await http.put(
         Uri.parse(
-          '$baseUrl/inventory/$id',
+          '$baseUrl/api/inventory/$id',
         ),
         headers: {
           'Content-Type':
@@ -316,7 +316,7 @@ class InventoryService {
               ? decoded['data']
               : decoded;
 
-      return InventoryItem.fromJson(
+      return InventoryModel.fromJson(
         Map<String, dynamic>.from(data),
       );
     } catch (e) {
@@ -336,7 +336,7 @@ class InventoryService {
     try {
       final response = await http.delete(
         Uri.parse(
-          '$baseUrl/inventory/$id',
+          '$baseUrl/api/inventory/$id',
         ),
       );
 
@@ -358,14 +358,14 @@ class InventoryService {
   // UPDATE QUANTITY
   // ==========================================================
 
-  Future<InventoryItem> updateQuantity({
+  Future<InventoryModel> updateQuantity({
     required String id,
     required int quantity,
   }) async {
     try {
       final response = await http.patch(
         Uri.parse(
-          '$baseUrl/inventory/$id/quantity',
+          '$baseUrl/api/inventory/$id/quantity',
         ),
         headers: {
           'Content-Type':
@@ -392,7 +392,7 @@ class InventoryService {
               ? decoded['data']
               : decoded;
 
-      return InventoryItem.fromJson(
+      return InventoryModel.fromJson(
         Map<String, dynamic>.from(data),
       );
     } catch (e) {

@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
-import 'package:erp_software/frontend/models/inventory_model.dart';
+import 'package:erp_software/core/models/inventory_model.dart';
 import 'package:erp_software/frontend/widgets/inventory/inventory_product_card.dart';
 import 'package:erp_software/frontend/widgets/inventory/inventory_status_badge.dart';
 import 'package:erp_software/theme/app_colors.dart';
 
 class InventoryTable extends StatelessWidget {
-  final List<InventoryItem> items;
+  final List<InventoryModel> items;
 
-  final void Function(InventoryItem item) onView;
-  final void Function(InventoryItem item) onEdit;
-  final void Function(InventoryItem item) onDelete;
+  final void Function(InventoryModel item) onView;
+  final void Function(InventoryModel item) onEdit;
+  final void Function(InventoryModel item) onDelete;
 
   const InventoryTable({
     super.key,
@@ -62,11 +62,11 @@ class InventoryTable extends StatelessWidget {
    ============================================================ */
 
 class _DesktopTable extends StatelessWidget {
-  final List<InventoryItem> items;
+  final List<InventoryModel> items;
 
-  final void Function(InventoryItem item) onView;
-  final void Function(InventoryItem item) onEdit;
-  final void Function(InventoryItem item) onDelete;
+  final void Function(InventoryModel item) onView;
+  final void Function(InventoryModel item) onEdit;
+  final void Function(InventoryModel item) onDelete;
 
   const _DesktopTable({
     required this.items,
@@ -280,7 +280,7 @@ class _HeaderText extends StatelessWidget {
 }
 
 class _TableRow extends StatelessWidget {
-  final InventoryItem item;
+  final InventoryModel item;
   final bool isLast;
 
   final VoidCallback onView;
@@ -327,7 +327,7 @@ class _TableRow extends StatelessWidget {
           Expanded(
             flex: 2,
             child: Text(
-              item.sku,
+              item.sku ?? 'No SKU',
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(
@@ -428,7 +428,7 @@ class _TableRow extends StatelessWidget {
 }
 
 class _ProductInfo extends StatelessWidget {
-  final InventoryItem item;
+  final InventoryModel item;
 
   const _ProductInfo({
     required this.item,
@@ -473,7 +473,7 @@ class _ProductInfo extends StatelessWidget {
               const SizedBox(height: 3),
 
               Text(
-                item.sku,
+                item.sku ?? 'No SKU',
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
@@ -490,7 +490,7 @@ class _ProductInfo extends StatelessWidget {
 }
 
 class _Level extends StatelessWidget {
-  final InventoryItem item;
+  final InventoryModel item;
 
   const _Level({
     required this.item,
@@ -596,11 +596,11 @@ class _IconAction extends StatelessWidget {
    ============================================================ */
 
 class _TabletGrid extends StatelessWidget {
-  final List<InventoryItem> items;
+  final List<InventoryModel> items;
 
-  final void Function(InventoryItem item) onView;
-  final void Function(InventoryItem item) onEdit;
-  final void Function(InventoryItem item) onDelete;
+  final void Function(InventoryModel item) onView;
+  final void Function(InventoryModel item) onEdit;
+  final void Function(InventoryModel item) onDelete;
 
   const _TabletGrid({
     required this.items,
@@ -652,11 +652,11 @@ class _TabletGrid extends StatelessWidget {
    ============================================================ */
 
 class _MobileList extends StatelessWidget {
-  final List<InventoryItem> items;
+  final List<InventoryModel> items;
 
-  final void Function(InventoryItem item) onView;
-  final void Function(InventoryItem item) onEdit;
-  final void Function(InventoryItem item) onDelete;
+  final void Function(InventoryModel item) onView;
+  final void Function(InventoryModel item) onEdit;
+  final void Function(InventoryModel item) onDelete;
 
   const _MobileList({
     required this.items,

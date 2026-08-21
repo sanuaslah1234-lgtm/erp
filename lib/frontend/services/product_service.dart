@@ -1,16 +1,16 @@
 import 'dart:convert';
 
-import 'package:erp_software/main.dart';
+import 'package:erp_software/core/constants/app_constants.dart';
 import 'package:http/http.dart' as http;
 
-import '../models/product_model.dart';
+import 'package:erp_software/core/models/product_model.dart';
 
 class ProductService {
-  static const String baseUrl = ApiConfig.baseUrl;
+  static const String baseUrl = AppConstants.apiBaseUrl;
 
   Future<List<ProductModel>> getProducts() async {
     final response = await http.get(
-      Uri.parse('$baseUrl/products'),
+      Uri.parse('$baseUrl/api/products'),
     );
 
     if (response.statusCode != 200) {

@@ -1,7 +1,7 @@
 import 'package:postgres/postgres.dart';
 
 import '../database/postgres_service.dart';
-import '../models/customer_model.dart';
+import 'package:erp_software/core/models/customer_model.dart';
 
 class CustomerService {
   final PostgresService postgresService;

@@ -1,15 +1,15 @@
 import 'dart:convert';
 
-import 'package:erp_software/main.dart';
+import 'package:erp_software/core/constants/app_constants.dart';
 import 'package:http/http.dart' as http;
 
-import '../models/customer_model.dart';
+import 'package:erp_software/core/models/customer_model.dart';
 
 class CustomerService {
-static const baseUrl = ApiConfig.baseUrl;
+static const baseUrl = AppConstants.apiBaseUrl;
   Future<List<CustomerModel>> getCustomers() async {
     final response = await http.get(
-      Uri.parse('$baseUrl/customers'),
+      Uri.parse('$baseUrl/api/customers'),
     );
     if (response.statusCode == 200) {
       final body = jsonDecode(response.body);
@@ -30,7 +30,7 @@ static const baseUrl = ApiConfig.baseUrl;
 
   Future<CustomerModel> getCustomerById(String id) async {
     final response = await http.get(
-      Uri.parse('$baseUrl/customers/$id'),
+      Uri.parse('$baseUrl/api/customers/$id'),
     );
 
     if (response.statusCode == 200) {
@@ -50,7 +50,7 @@ static const baseUrl = ApiConfig.baseUrl;
     CustomerModel customer,
   ) async {
     final response = await http.post(
-      Uri.parse('$baseUrl/customers'),
+      Uri.parse('$baseUrl/api/customers'),
       headers: {
         'Content-Type': 'application/json',
       },
@@ -66,7 +66,6 @@ static const baseUrl = ApiConfig.baseUrl;
         body['data'],
       );
     }
-    print('Failed to create customer: ${response.body}');
     throw Exception(
       'Failed to create customer: ${response.body}',
     );
@@ -77,7 +76,7 @@ static const baseUrl = ApiConfig.baseUrl;
     CustomerModel customer,
   ) async {
     final response = await http.put(
-      Uri.parse('$baseUrl/customers/$id'),
+      Uri.parse('$baseUrl/api/customers/$id'),
       headers: {
         'Content-Type': 'application/json',
       },
@@ -101,7 +100,7 @@ static const baseUrl = ApiConfig.baseUrl;
 
   Future<void> deleteCustomer(String id) async {
     final response = await http.delete(
-      Uri.parse('$baseUrl/customers/$id'),
+      Uri.parse('$baseUrl/api/customers/$id'),
     );
 
     if (response.statusCode != 200) {
@@ -111,3 +110,4 @@ static const baseUrl = ApiConfig.baseUrl;
     }
   }
 }
+

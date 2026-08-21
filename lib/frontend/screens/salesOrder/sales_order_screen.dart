@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 import 'package:erp_software/theme/app_colors.dart';
-import 'package:erp_software/frontend/widgets/salesManagment/sales_filters.dart';
-import 'package:erp_software/frontend/widgets/salesManagment/sales_invoice_card.dart';
-import 'package:erp_software/frontend/widgets/salesManagment/sales_bill_sheet.dart';
+import 'package:erp_software/frontend/widgets/sales/sales_filters.dart';
+import 'package:erp_software/frontend/widgets/sales/sales_invoice_card.dart';
+import 'package:erp_software/frontend/widgets/sales/sales_bill_sheet.dart';
 
 class SalesManagementScreen extends StatefulWidget {
   const SalesManagementScreen({
@@ -287,7 +287,7 @@ class _SalesManagementScreenState
                 ),
                 itemCount:
                     filteredInvoices.length,
-                separatorBuilder: (_, __) =>
+                separatorBuilder: (_, _) =>
                     const SizedBox(height: 10),
                 itemBuilder: (context, index) {
                   final invoice =

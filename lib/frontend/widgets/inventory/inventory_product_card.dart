@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-import 'package:erp_software/frontend/models/inventory_model.dart';
+import 'package:erp_software/core/models/inventory_model.dart';
 import 'package:erp_software/frontend/widgets/inventory/inventory_status_badge.dart';
 import 'package:erp_software/theme/app_colors.dart';
 
 class InventoryProductCard extends StatelessWidget {
-  final InventoryItem item;
+  final InventoryModel item;
 
   final VoidCallback onView;
   final VoidCallback onEdit;
@@ -77,9 +77,9 @@ class InventoryProductCard extends StatelessWidget {
                         borderRadius: BorderRadius.circular(6),
                       ),
                       child: Text(
-                        item.sku.isEmpty
+                        (item.sku?.isEmpty ?? true)
                             ? 'No SKU'
-                            : item.sku,
+                            : item.sku!,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
@@ -414,7 +414,7 @@ class _VerticalDivider extends StatelessWidget {
 // =============================================================
 
 class _StockLevelLabel extends StatelessWidget {
-  final InventoryItem item;
+  final InventoryModel item;
 
   const _StockLevelLabel({
     required this.item,
@@ -466,7 +466,7 @@ class _StockLevelLabel extends StatelessWidget {
 // =============================================================
 
 class _StockProgress extends StatelessWidget {
-  final InventoryItem item;
+  final InventoryModel item;
 
   const _StockProgress({
     required this.item,

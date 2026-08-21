@@ -1,12 +1,12 @@
 import 'dart:convert';
 
-import 'package:erp_software/main.dart';
+import 'package:erp_software/core/constants/app_constants.dart';
 import 'package:http/http.dart' as http;
 
-import 'package:erp_software/frontend/models/employee_model.dart';
+import 'package:erp_software/core/models/employee_model.dart';
 
 class EmployeeService {
-  static const String baseUrl = ApiConfig.baseUrl;
+  static const String baseUrl = AppConstants.apiBaseUrl;
 
   // =========================================================
   // GET ALL EMPLOYEES
@@ -14,7 +14,7 @@ class EmployeeService {
 
   Future<List<EmployeeModel>> getEmployees() async {
     final response = await http.get(
-      Uri.parse('$baseUrl/employees'),
+      Uri.parse('$baseUrl/api/employees'),
       headers: {
         'Content-Type': 'application/json',
       },
@@ -50,7 +50,7 @@ class EmployeeService {
     String id,
   ) async {
     final response = await http.get(
-      Uri.parse('$baseUrl/employees/$id'),
+      Uri.parse('$baseUrl/api/employees/$id'),
       headers: {
         'Content-Type': 'application/json',
       },
@@ -98,10 +98,8 @@ class EmployeeService {
       'type': type,
     };
 
-    print('CREATE EMPLOYEE BODY: ${jsonEncode(body)}');
-
     final response = await http.post(
-      Uri.parse('$baseUrl/employees'),
+      Uri.parse('$baseUrl/api/employees'),
       headers: {
         'Content-Type': 'application/json',
       },
@@ -151,7 +149,7 @@ class EmployeeService {
     };
 
     final response = await http.put(
-      Uri.parse('$baseUrl/employees/$id'),
+      Uri.parse('$baseUrl/api/employees/$id'),
       headers: {
         'Content-Type': 'application/json',
       },
@@ -181,7 +179,7 @@ class EmployeeService {
     String id,
   ) async {
     final response = await http.delete(
-      Uri.parse('$baseUrl/employees/$id'),
+      Uri.parse('$baseUrl/api/employees/$id'),
       headers: {
         'Content-Type': 'application/json',
       },
